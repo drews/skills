@@ -1,0 +1,22 @@
+{
+  "name": "drews-skills",
+  "owner": {
+    "name": "Drew Shapiro",
+    "email": "drew.shapiro@gmail.com"
+  },
+  "metadata": {
+    "description": "Drew's personal Claude skills marketplace",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "starter-skills",
+      "description": "Initial collection of custom skills for various tasks",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./template-skill"
+      ]
+    }
+  ]
+}
