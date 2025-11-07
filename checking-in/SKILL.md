@@ -1,9 +1,9 @@
 ---
-name: energy-aware-planning
+name: checking-in
 description: Matches task selection to available capacity and energy levels. Use when user mentions "tired", "low energy", "burnt out", "overwhelmed", "no spoons", "need a break", asks "what can I do right now", requests capacity assessment, or needs recommendations for tasks appropriate to their current state.
 ---
 
-# Energy-Aware Planning
+# Checking In
 
 Helps match task selection and planning to current capacity, recognizing that available energy fluctuates and task difficulty should adapt accordingly.
 
