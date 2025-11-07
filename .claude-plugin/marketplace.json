@@ -17,6 +17,17 @@
       "skills": [
         "./template-skill"
       ]
+    },
+    {
+      "name": "exec-func-skills",
+      "description": "Executive function support skills for task initiation, context management, and energy-aware planning",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./task-initiator",
+        "./context-checkpoint",
+        "./energy-aware-planning"
+      ]
     }
   ]
 }
