@@ -1,9 +1,9 @@
 ---
-name: context-checkpoint
+name: keeping-place
 description: Saves and restores work context to handle interruptions and task switching. Use when user says "save where I am", "need to context switch", "got interrupted", "what was I doing", "where was I", "lost my place", or needs to capture current work state, resume after interruption, or transition between tasks cleanly.
 ---
 
-# Context Checkpoint
+# Keeping Place
 
 Manages work context through saves, restores, and recovery from interruptions. Acts as external working memory for maintaining state across task switches and disruptions.
 
