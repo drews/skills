@@ -20,13 +20,13 @@
     },
     {
       "name": "exec-func-skills",
-      "description": "Executive function support skills for task initiation, context management, and energy-aware planning",
+      "description": "Executive function support skills: getting started, keeping place during interruptions, and checking in with capacity",
       "source": "./",
       "strict": false,
       "skills": [
-        "./task-initiator",
-        "./context-checkpoint",
-        "./energy-aware-planning"
+        "./getting-started",
+        "./keeping-place",
+        "./checking-in"
       ]
     }
   ]
