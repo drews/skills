@@ -1,9 +1,9 @@
 ---
-name: task-initiator
+name: getting-started
 description: Breaks through task paralysis and analysis paralysis by providing concrete first steps and momentum-building strategies. Use when user says "don't know where to start", "can't get going", "analysis paralysis", "too overwhelming", "stuck", or asks for help breaking down a task, finding the first step, or identifying the easiest thing to do.
 ---
 
-# Task Initiator
+# Getting Started
 
 Helps overcome task initiation difficulties by transforming overwhelming situations into actionable first steps.
 
