@@ -20,13 +20,13 @@
     },
     {
       "name": "exec-func-skills",
-      "description": "Executive function support skills: getting started, keeping place during interruptions, and checking in with capacity",
+      "description": "Executive function support skills: getting started, saving progress through interruptions, and sensing limits",
       "source": "./",
       "strict": false,
       "skills": [
         "./getting-started",
-        "./keeping-place",
-        "./checking-in"
+        "./saving-progress",
+        "./sensing-limits"
       ]
     }
   ]
