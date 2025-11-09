@@ -228,6 +228,6 @@ This skill is working when:
 
 ## Relationship to Other Skills
 
-- **task-initiator**: Can help resume momentum after context restore
-- **energy-aware-planning**: Consider capacity when planning resume timing
+- **getting-started**: Can help resume momentum after context restore
+- **sensing-limits**: Consider capacity when planning resume timing
 - May store context in files that user can reference later

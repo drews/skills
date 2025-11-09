@@ -247,12 +247,12 @@ Low capacity changes decision quality:
 
 ### Coordinating Across Skills
 
-**With task-initiator**:
+**With getting-started**:
 - If capacity is low, emphasis on absolute easiest starting point
 - Adjust "5-minute starter" to current energy (maybe "2-minute starter")
 - Build in more scaffolding when depleted
 
-**With context-checkpoint**:
+**With saving-progress**:
 - Consider capacity when planning resume timing
 - Low-energy resumes need more explicit context loading
 - May recommend shorter work sessions when capacity is limited

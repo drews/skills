@@ -80,7 +80,7 @@ Example:
 
 If user mentions being tired, low energy, or burnt out while trying to start a task:
 - Acknowledge this changes the approach
-- Suggest consulting the energy-aware-planning skill for capacity-appropriate tasks
+- Suggest consulting the sensing-limits skill for capacity-appropriate tasks
 - If they still want to proceed, emphasize the absolute minimum viable action
 
 ## Anti-Patterns to Avoid
@@ -100,5 +100,5 @@ You've successfully used this skill when:
 
 ## Relationship to Other Skills
 
-- **energy-aware-planning**: Consult when capacity seems limited
-- **context-checkpoint**: Can save momentum state for later resumption
+- **sensing-limits**: Consult when capacity seems limited
+- **saving-progress**: Can save momentum state for later resumption
