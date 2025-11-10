@@ -41,6 +41,12 @@ Identify and invest in the Core Domain—the area that provides the most busines
 
 For comprehensive guidance on domain distillation, Ubiquitous Language, and strategic focus, see `CoreDistillation.md` in this directory.
 
+## Related Skills
+
+- **[Mapping Strategic Contexts](../mapping-strategic-contexts/SKILL.md)**: Map Core, Supporting, and Generic subdomains to Bounded Contexts
+- **[Modeling Building Blocks](../modeling-building-blocks/SKILL.md)**: Implement the Core Domain using tactical patterns
+- **[Refining Supple Design](../refining-supple-design/SKILL.md)**: Apply highest design standards to Core Domain code
+
 ## Related Concepts
 
 - Strategic Design

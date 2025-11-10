@@ -463,6 +463,31 @@ Context Maps are living documents:
 [Support Context] (Separate Ways from all others)
 ```
 
+**Visual Context Map:**
+
+```mermaid
+flowchart TB
+    Identity[Identity Context<br/>🌐 Open-Host Service]
+    Sales[Sales Context]
+    Inventory[Inventory Context]
+    Billing[Billing Context]
+    Payment[Legacy Payment<br/>System]
+    Support[Support Context]
+
+    Identity -->|REST API| Sales
+    Identity -->|REST API| Inventory
+    Sales <-->|Partnership| Inventory
+    Sales -->|Customer/Supplier| Billing
+    Billing -->|ACL| Payment
+
+    style Identity fill:#FFD700
+    style Sales fill:#90EE90
+    style Inventory fill:#90EE90
+    style Billing fill:#87CEEB
+    style Payment fill:#FFB6C1
+    style Support fill:#D3D3D3
+```
+
 **Relationships explained:**
 - Identity provides authentication (Open-Host Service) to Sales
 - Sales and Inventory coordinate closely (Partnership) for real-time stock checks

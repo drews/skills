@@ -41,6 +41,12 @@ Create a "supple" design—one that invites change, clearly reveals its intent, 
 
 For comprehensive guidance on supple design principles, refactoring patterns, and code quality practices, see `SuppleDesignPatterns.md` in this directory.
 
+## Related Skills
+
+- **[Modeling Building Blocks](../modeling-building-blocks/SKILL.md)**: Apply supple design to Entities, Value Objects, and Services
+- **[Crafting Core Domain](../crafting-core-domain/SKILL.md)**: Focus highest design effort on Core Domain elements
+- **[Structuring Domain Layers](../structuring-domain-layers/SKILL.md)**: Maintain clean boundaries while refactoring
+
 ## Related Concepts
 
 - Refactoring

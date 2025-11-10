@@ -28,7 +28,13 @@ Create a clear architectural boundary that concentrates all domain-related code 
 
 For comprehensive guidance on layered architecture patterns and isolation strategies, see `LayeredArchitecture.md` in this directory.
 
-## Related Patterns
+## Related Skills
+
+- **[Modeling Building Blocks](../modeling-building-blocks/SKILL.md)**: Implement tactical patterns within the isolated domain layer
+- **[Crafting Core Domain](../crafting-core-domain/SKILL.md)**: Focus effort on the Core Domain within your layers
+- **[Mapping Strategic Contexts](../mapping-strategic-contexts/SKILL.md)**: Apply layered architecture within each Bounded Context
+
+## Related Concepts
 
 - Hexagonal Architecture (Ports and Adapters)
 - Clean Architecture

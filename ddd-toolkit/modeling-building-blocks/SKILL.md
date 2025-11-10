@@ -47,6 +47,12 @@ Use the decision tree in `TacticalBuildingBlocks.md` to determine whether a conc
 
 For comprehensive guidance on all tactical patterns, implementation examples, and design principles, see `TacticalBuildingBlocks.md` in this directory.
 
+## Related Skills
+
+- **[Structuring Domain Layers](../structuring-domain-layers/SKILL.md)**: Isolate domain model before implementing tactical patterns
+- **[Refining Supple Design](../refining-supple-design/SKILL.md)**: Improve design quality of Entities, Value Objects, and Services
+- **[Mapping Strategic Contexts](../mapping-strategic-contexts/SKILL.md)**: Ensure Aggregates don't cross Bounded Context boundaries
+
 ## Related Concepts
 
 - Object-Oriented Design

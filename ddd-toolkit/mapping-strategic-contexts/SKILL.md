@@ -40,6 +40,12 @@ Make explicit boundaries for each model in play and define the relationships bet
 
 For comprehensive guidance on Context Mapping strategies, integration patterns, and team dynamics, see `ContextMap.md` in this directory.
 
+## Related Skills
+
+- **[Crafting Core Domain](../crafting-core-domain/SKILL.md)**: Identify Core vs. Supporting subdomains within each Bounded Context
+- **[Structuring Domain Layers](../structuring-domain-layers/SKILL.md)**: Apply layered architecture within each context
+- **[Modeling Building Blocks](../modeling-building-blocks/SKILL.md)**: Implement Aggregates that don't cross context boundaries
+
 ## Related Concepts
 
 - Strategic Design

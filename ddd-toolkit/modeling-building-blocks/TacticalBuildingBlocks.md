@@ -222,6 +222,22 @@ Does it need a unique identity that persists over time?
                                             or it's an Entity
 ```
 
+**Visual Decision Flow:**
+
+```mermaid
+flowchart TD
+    A[Is it a domain concept?] -->|YES| B{Does it need a unique<br/>identity that persists<br/>over time?}
+    B -->|YES| C[🔑 ENTITY]
+    B -->|NO| D{Does it describe/<br/>measure something?}
+    D -->|YES| E{Should it be<br/>immutable?}
+    E -->|YES| F[📦 VALUE OBJECT]
+    E -->|NO| G[⚠️ Reconsider:<br/>Usually should be<br/>immutable or it's<br/>an Entity]
+
+    style C fill:#90EE90
+    style F fill:#87CEEB
+    style G fill:#FFB6C1
+```
+
 ### Questions to Ask
 
 | Question | If YES → | If NO → |
