@@ -12,6 +12,42 @@ Supple design is achieved through continuous refinement and the application of r
 
 ---
 
+## Table of Contents
+
+1. [Overview](#overview)
+2. [The Problem: Rigid, Obscure Models](#the-problem-rigid-obscure-models)
+3. [The Solution: Supple Design Patterns](#the-solution-supple-design-patterns)
+4. [1. Intention-Revealing Interfaces](#1-intention-revealing-interfaces)
+   - [Guidelines](#guidelines)
+   - [Before and After Examples](#before-and-after-examples)
+   - [Benefits](#benefits)
+5. [2. Side-Effect-Free Functions](#2-side-effect-free-functions)
+   - [When to Avoid Side Effects](#when-to-avoid-side-effects)
+   - [Command-Query Separation (CQS)](#command-query-separation-cqs)
+   - [Value Objects as Side-Effect-Free](#value-objects-as-side-effect-free)
+6. [3. Assertions](#3-assertions)
+   - [Implementation Approaches](#implementation-approaches)
+   - [Invariants](#invariants)
+7. [4. Closure of Operations](#4-closure-of-operations)
+   - [Examples](#examples)
+   - [Example: Building a Pricing DSL](#example-building-a-pricing-dsl)
+8. [5. Declarative Design](#5-declarative-design)
+   - [Techniques](#techniques)
+9. [6. Conceptual Contours](#6-conceptual-contours)
+   - [Identifying Conceptual Contours](#identifying-conceptual-contours)
+   - [Example: Pricing](#example-pricing)
+   - [Refactoring Toward Conceptual Contours](#refactoring-toward-conceptual-contours)
+10. [7. Refactoring Toward Deeper Insight](#7-refactoring-toward-deeper-insight)
+    - [The DDD Refactoring Cycle](#the-ddd-refactoring-cycle)
+    - [Triggers for Refactoring](#triggers-for-refactoring)
+    - [Example Refactoring Journey](#example-refactoring-journey)
+11. [Putting It All Together: A Supple Design Example](#putting-it-all-together-a-supple-design-example)
+12. [Common Pitfalls](#common-pitfalls)
+13. [Success Indicators](#success-indicators)
+14. [Further Reading](#further-reading)
+
+---
+
 ## The Problem: Rigid, Obscure Models
 
 Without attention to design quality:

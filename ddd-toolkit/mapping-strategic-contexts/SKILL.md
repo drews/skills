@@ -1,3 +1,8 @@
+---
+name: mapping-strategic-contexts
+description: Identifies Bounded Contexts and defines their relationships using a Context Map, enabling large-scale project organization by making integration patterns and team boundaries explicit. Use when integrating multiple subsystems or microservices, when model terms have different meanings across team boundaries, when multiple teams work on interdependent systems, when confusion exists about integration responsibilities, or when documenting the system landscape.
+---
+
 # Mapping Strategic Contexts
 
 ## Description

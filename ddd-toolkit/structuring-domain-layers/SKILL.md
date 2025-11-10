@@ -1,3 +1,8 @@
+---
+name: structuring-domain-layers
+description: Isolates the domain model and business logic from infrastructural concerns like UI and database access, preventing logic diffusion across technical layers. Use when starting new bounded contexts, refactoring legacy code where business logic is scattered, when team members struggle to locate domain logic, when domain objects are coupled to persistence or presentation frameworks, or when preventing domain model pollution by technical concerns.
+---
+
 # Structuring Domain Layers
 
 ## Description

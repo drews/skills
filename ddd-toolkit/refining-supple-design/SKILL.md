@@ -1,3 +1,8 @@
+---
+name: refining-supple-design
+description: Applies iterative refinement patterns to create domain models that are easy to understand, easy to change, and reveal deep domain insights through intention-revealing interfaces, side-effect-free functions, and assertions. Use when code is hard to understand or reason about, when making changes is risky or fragile, when the domain model feels awkward, after implementing initial tactical patterns, during refactoring to improve design quality, or when domain understanding has deepened since initial implementation.
+---
+
 # Refining Supple Design
 
 ## Description

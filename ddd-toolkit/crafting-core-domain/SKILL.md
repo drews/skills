@@ -1,3 +1,8 @@
+---
+name: crafting-core-domain
+description: Focuses development effort on the Core Domain (the heart of business value) and ensures the entire team speaks the Ubiquitous Language, aligning code with business priorities through strategic distillation. Use when prioritizing features or refactoring work, when team members use inconsistent terminology, when unclear which parts provide competitive advantage, when communicating domain vision to stakeholders, when the domain model has accumulated complexity, or when starting new projects.
+---
+
 # Crafting Core Domain
 
 ## Description

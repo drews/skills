@@ -4,6 +4,40 @@
 
 As software systems grow beyond a single team or domain, multiple models inevitably emerge. Each model has its own language, concepts, and internal consistency. The Context Map is a strategic design tool that makes these boundaries explicit and defines how different Bounded Contexts relate to and integrate with each other.
 
+---
+
+## Table of Contents
+
+1. [Overview](#overview)
+2. [The Problem: Model Fragmentation](#the-problem-model-fragmentation)
+3. [The Solution: Bounded Contexts and Context Maps](#the-solution-bounded-contexts-and-context-maps)
+   - [Bounded Context](#bounded-context)
+   - [Context Map](#context-map)
+4. [Context Relationship Patterns](#context-relationship-patterns)
+   - [1. Partnership](#1-partnership)
+   - [2. Shared Kernel](#2-shared-kernel)
+   - [3. Customer/Supplier Development](#3-customersupplier-development)
+   - [4. Conformist](#4-conformist)
+   - [5. Anticorruption Layer (ACL)](#5-anticorruption-layer-acl)
+   - [6. Open-Host Service](#6-open-host-service)
+   - [7. Separate Ways](#7-separate-ways)
+5. [Creating a Context Map](#creating-a-context-map)
+   - [Step 1: Identify Bounded Contexts](#step-1-identify-bounded-contexts)
+   - [Step 2: Name the Contexts](#step-2-name-the-contexts)
+   - [Step 3: Draw the Boundaries](#step-3-draw-the-boundaries)
+   - [Step 4: Identify Relationships](#step-4-identify-relationships)
+   - [Step 5: Document Integration Details](#step-5-document-integration-details)
+   - [Step 6: Review and Evolve](#step-6-review-and-evolve)
+6. [Example Context Map](#example-context-map)
+7. [Strategic Decisions Informed by Context Maps](#strategic-decisions-informed-by-context-maps)
+8. [Common Pitfalls](#common-pitfalls)
+9. [Tools for Context Mapping](#tools-for-context-mapping)
+10. [Context Maps and Conway's Law](#context-maps-and-conways-law)
+11. [Success Indicators](#success-indicators)
+12. [Further Reading](#further-reading)
+
+---
+
 ## The Problem: Model Fragmentation
 
 In large projects:

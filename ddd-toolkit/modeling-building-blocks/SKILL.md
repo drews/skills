@@ -1,3 +1,8 @@
+---
+name: modeling-building-blocks
+description: Guides the creation of tactical domain elements within a Bounded Context, distinguishing Entities by identity, Value Objects by attributes, and structuring complex objects into Aggregates for consistency. Use when designing classes and object relationships, deciding whether something should be an Entity or Value Object, defining consistency boundaries, implementing domain logic and business rules, structuring data access patterns, or capturing important domain events.
+---
+
 # Modeling Building Blocks
 
 ## Description

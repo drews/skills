@@ -6,6 +6,57 @@ Once you've established strategic boundaries (Bounded Contexts) and identified t
 
 ---
 
+## Table of Contents
+
+1. [Overview](#overview)
+2. [Entities](#entities)
+   - [Characteristics](#characteristics)
+   - [When to Use](#when-to-use)
+   - [Examples](#examples)
+   - [Implementation Guidelines](#implementation-guidelines)
+3. [Value Objects](#value-objects)
+   - [Characteristics](#characteristics-1)
+   - [When to Use](#when-to-use-1)
+   - [Examples](#examples-1)
+   - [Benefits](#benefits)
+4. [Conditional Workflow: Entity or Value Object?](#conditional-workflow-entity-or-value-object)
+   - [Questions to Ask](#questions-to-ask)
+   - [Examples Applying the Decision Tree](#examples-applying-the-decision-tree)
+5. [Aggregates](#aggregates)
+   - [What is an Aggregate?](#what-is-an-aggregate)
+   - [Aggregate Root](#aggregate-root)
+   - [Consistency Boundaries](#consistency-boundaries)
+   - [Rules for Aggregates](#rules-for-aggregates)
+   - [Examples](#examples-2)
+   - [Design Guidelines](#design-guidelines)
+6. [Repositories](#repositories)
+   - [What is a Repository?](#what-is-a-repository)
+   - [Characteristics](#characteristics-2)
+   - [Example](#example)
+   - [Repository vs DAO](#repository-vs-dao)
+7. [Services](#services)
+   - [Domain Services](#domain-services)
+   - [Application Services](#application-services)
+   - [When to Use Domain Services](#when-to-use-domain-services)
+   - [Examples](#examples-3)
+8. [Domain Events](#domain-events)
+   - [What is a Domain Event?](#what-is-a-domain-event)
+   - [Characteristics](#characteristics-3)
+   - [Benefits](#benefits-1)
+   - [Example](#example-1)
+9. [Factories](#factories)
+   - [When to Use](#when-to-use-2)
+   - [Example](#example-2)
+10. [Modules (Packages)](#modules-packages)
+    - [Purpose](#purpose)
+    - [Guidelines](#guidelines)
+11. [Putting It All Together: Example](#putting-it-all-together-example)
+12. [Common Pitfalls](#common-pitfalls)
+13. [Success Indicators](#success-indicators)
+14. [Further Reading](#further-reading)
+
+---
+
 ## Entities
 
 **An object defined primarily by its identity, rather than its attributes.**
