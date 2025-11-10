@@ -17,6 +17,17 @@
       "skills": [
         "./template-skill"
       ]
+    },
+    {
+      "name": "exec-func-skills",
+      "description": "Executive function support skills: getting started, saving progress through interruptions, and sensing limits",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./getting-started",
+        "./saving-progress",
+        "./sensing-limits"
+      ]
     }
   ]
 }
