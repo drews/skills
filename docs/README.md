@@ -76,11 +76,11 @@ We can replicate Motion's core value proposition using:
 - **AI:** Claude API + Local Ollama
 
 **Skills Layer (Our Innovation):**
-- 7 modular Skills that orchestrate the FOSS tools
-- MCP (Model Context Protocol) for standardized integrations
-- Custom scheduling engine (OR-Tools or OptaPlanner)
-- Learning/personalization system
-- Event-driven automation
+- 7 markdown instruction files (SKILL.md) that teach Claude how to orchestrate FOSS tools
+- MCP (Model Context Protocol) servers provide tools (calendar, tasks, projects)
+- Skills teach Claude WHEN and HOW to use MCP tools intelligently
+- Optional helper scripts for complex computations (constraint solving, ML)
+- Progressive disclosure: Skills loaded on-demand, minimal context usage
 
 ---
 
@@ -126,26 +126,31 @@ We can replicate Motion's core value proposition using:
 
 ## 🏗️ Architecture Overview
 
+**Key Insight:** Skills are markdown instructions that teach Claude how to use tools, not programmatic services.
+
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                    User Interfaces                       │
-│        CLI  │  TUI  │  Web App  │  Mobile (future)      │
+│                 Claude Code (Orchestrator)               │
+│   Reads Skills, follows instructions, uses MCP tools    │
 └────────────────────────┬────────────────────────────────┘
                          │
 ┌────────────────────────▼────────────────────────────────┐
-│                  Skills Layer (Our Code)                 │
+│            Skills Layer (Markdown Instructions)          │
+│                   .claude/skills/*.md                    │
 │                                                          │
-│  • task-scheduler-skill      (auto-schedule tasks)      │
-│  • priority-assistant-skill  (what to work on next)     │
-│  • deadline-guardian-skill   (risk detection)           │
-│  • project-planner-skill     (AI project decomposition) │
-│  • productivity-analyzer     (learn patterns)           │
-│  • meeting-optimizer-skill   (smart scheduling)         │
-│  • workflow-automation       (event-driven actions)     │
+│  • task-scheduler/SKILL.md      (how to schedule)       │
+│  • priority-assistant/SKILL.md  (how to prioritize)     │
+│  • deadline-guardian/SKILL.md   (how to detect risks)   │
+│  • project-planner/SKILL.md     (how to plan projects)  │
+│  • productivity-analyzer/SKILL.md (how to learn)        │
+│  • meeting-optimizer/SKILL.md   (how to find slots)     │
+│  • context-assistant/SKILL.md   (how to filter tasks)   │
+│                                                          │
+│  + Optional helper scripts (executed, not loaded)       │
 └────────────────────────┬────────────────────────────────┘
                          │
 ┌────────────────────────▼────────────────────────────────┐
-│              MCP Servers (Standardized APIs)            │
+│              MCP Servers (Extend Claude's Tools)         │
 │                                                          │
 │  Calendar │ Tasks │ Projects │ Notes │ Search │ Analytics
 └────────────────────────┬────────────────────────────────┘
@@ -402,21 +407,70 @@ After analyzing Motion's features, the core differentiator is:
 
 ---
 
-## 🎓 Skills as Learning Modules
+## 📝 What Are Skills? (Per Anthropic)
 
-This project is also an exploration of **Skills** as reusable AI components:
+**Skills are markdown instruction files** that extend Claude Code's knowledge, not code.
 
-**Hypothesis:** Complex AI experiences (like Motion) can be decomposed into modular Skills that:
-- Operate independently
-- Compose together for richer experiences
-- Share learned preferences
-- Are portable across projects
+### Key Principles:
 
-**If successful, these Skills could:**
-- Power other productivity tools
-- Be remixed for different workflows
-- Serve as templates for new Skills
-- Form a marketplace of AI capabilities
+1. **Progressive Disclosure:**
+   - Claude sees only Skill name/description initially (~25 tokens)
+   - Full SKILL.md loaded only when relevant
+   - Helper scripts executed WITHOUT loading into context
+   - Scales to unlimited Skills
+
+2. **"Context Window is a Public Good":**
+   - Be extremely concise in SKILL.md
+   - Claude is already smart - don't explain what it knows
+   - Move complex logic to helper scripts
+   - Put rarely-used details in separate files
+
+3. **Skills vs MCP Servers:**
+   - **MCP Server:** Extends Claude's **tools** (new capabilities)
+   - **Skill:** Extends Claude's **knowledge** (how to use tools)
+   - Together: MCP gives tools, Skills teach when/how to use them
+
+### Example Skill Structure:
+
+```markdown
+---
+name: task-scheduler
+description: Schedule tasks into calendar using AI. Use when user wants to add tasks or optimize schedule.
+---
+
+# Task Scheduler
+
+## When to Use
+- User says "schedule task X"
+- User asks "when should I work on Y?"
+
+## Instructions
+1. Get task details (title, duration, deadline, priority)
+2. Call Calendar MCP: calendar_list_events
+3. Find free slots matching task duration
+4. Score slots by: time-of-day, deadline urgency, priority
+5. Create event with Calendar MCP
+6. Explain WHY you chose that slot
+```
+
+**Result:** Claude can now intelligently schedule tasks like Motion does!
+
+---
+
+## 🎓 Skills as Reusable Patterns
+
+This project demonstrates that complex AI experiences (like Motion) can be decomposed into **teachable patterns**:
+
+- Each Skill is a recipe Claude can follow
+- Skills compose together (deadline-guardian uses priority-assistant)
+- Learned preferences stored separately, shared across Skills
+- Skills are portable: copy SKILL.md to any Claude Code project
+
+**If successful:**
+- These Skills become templates for similar workflows
+- Community can create Skill variations
+- Skills marketplace emerges (already happening!)
+- Pattern: "Don't write code, write instructions"
 
 ---
 
@@ -428,30 +482,38 @@ This project is also an exploration of **Skills** as reusable AI components:
 2. 🔨 **Set up development environment**
    - Install Docker
    - Deploy FOSS stack (Radicale, Vikunja)
-   - Configure CalDAV MCP server
+   - Configure CalDAV MCP server in Claude Code
 
-3. 🔨 **Build first skill: priority-assistant**
-   - Simplest starting point (no scheduling engine needed)
-   - Validates MCP integration pattern
-   - Demonstrates AI reasoning (priority calculation + explanation)
+3. 🔨 **Write first Skill: priority-assistant/SKILL.md**
+   - Simplest starting point (no helper scripts needed)
+   - Markdown file with instructions for Claude
+   - Teaches Claude how to calculate and explain task priorities
+   - Validates that Claude can follow Skill instructions
 
 ### Week 2
 
-4. 🔨 **Build Tasks MCP for Vikunja**
-   - TypeScript/Node.js implementation
+4. 🔨 **Build Tasks MCP Server for Vikunja**
+   - TypeScript/Node.js MCP server implementation
    - Core tools: list, create, update, complete
    - Test with MCP Inspector
+   - Configure in Claude Code
 
-5. 🔨 **Build task-scheduler-skill (MVP)**
-   - Integrate OR-Tools for constraint solving
-   - Simple scheduling: one task at a time
-   - No re-optimization yet
+5. 🔨 **Write task-scheduler/SKILL.md**
+   - Markdown instructions for scheduling logic
+   - Teaches Claude how to find optimal calendar slots
+   - Includes simple scoring algorithm in instructions
+   - (Optional) Add helper script if scoring gets complex
 
 ### Week 3-4
 
-6. 🔨 **Build deadline-guardian-skill**
-7. 🔨 **Add explainability layer**
+6. 🔨 **Write deadline-guardian/SKILL.md**
+7. 🔨 **Add helper scripts for complex calculations**
+   - Python script for risk score calculation
+   - Keep SKILL.md concise, delegate math to script
 8. 🧪 **User testing with 2-3 beta users**
+   - Test if Claude correctly follows Skill instructions
+   - Refine SKILL.md descriptions based on when Claude uses them
+   - Measure context token usage
 
 ---
 

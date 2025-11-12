@@ -3,6 +3,13 @@
 
 > **Purpose:** Track implementation progress toward Motion feature parity using testable criteria
 
+> **Implementation Approach:** Features will be implemented as:
+> - **Skills:** Markdown instruction files (SKILL.md) that teach Claude how to accomplish each feature
+> - **MCP Servers:** TypeScript/Python services that provide tools (calendar, tasks, projects APIs)
+> - **Helper Scripts:** Python/Bash scripts for complex computations (constraint solving, ML, statistics)
+>
+> See [architecture.md](./architecture.md) for complete design.
+
 ---
 
 ## HOW TO USE THIS CHECKLIST

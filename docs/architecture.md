@@ -1,7 +1,7 @@
 # Motion Alternative: Skills Stack Architecture
 ## System Design for FOSS Productivity Suite
 
-> **Purpose:** Define the architecture for building Motion-like AI productivity features using modular Skills and FOSS tools
+> **Purpose:** Define the architecture for building Motion-like AI productivity features using Claude Code Skills and FOSS tools
 
 ---
 
@@ -12,1272 +12,1279 @@
 │                        USER INTERFACES                          │
 │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐      │
 │  │   CLI    │  │   TUI    │  │   Web    │  │  Mobile  │      │
-│  │ (primary)│  │(terminal)│  │   App    │  │   App    │      │
+│  │ (Claude  │  │(terminal)│  │   App    │  │   App    │      │
+│  │  Code)   │  │   UI     │  │ (future) │  │ (future) │      │
 │  └──────────┘  └──────────┘  └──────────┘  └──────────┘      │
 └───────────────────────────┬────────────────────────────────────┘
                             │
 ┌───────────────────────────┴────────────────────────────────────┐
-│                    SKILLS ORCHESTRATION LAYER                   │
+│                      CLAUDE CODE                                │
+│                   (Orchestration Engine)                        │
+│                                                                 │
+│  Reads and follows instructions from Skills                    │
+│  Uses native tools: Bash, Read, Write, MCP tools              │
+│  Manages context window and progressive disclosure             │
+└───────────────────────────┬────────────────────────────────────┘
+                            │
+┌───────────────────────────┴────────────────────────────────────┐
+│                  SKILLS LAYER (This Repo)                       │
+│              Markdown instruction files in .claude/skills/      │
+│                                                                 │
 │  ┌──────────────────────────────────────────────────────────┐  │
-│  │             Claude Code Skills (This Repo)               │  │
-│  │  - task-scheduler-skill                                  │  │
-│  │  - priority-assistant-skill                              │  │
-│  │  - deadline-guardian-skill                               │  │
-│  │  - project-planner-skill                                 │  │
-│  │  - productivity-analyzer-skill                           │  │
-│  │  - meeting-optimizer-skill                               │  │
-│  │  - workflow-automation-skill                             │  │
+│  │  task-scheduler/          (Schedule tasks into calendar) │  │
+│  │    ├── SKILL.md           (Instructions for Claude)      │  │
+│  │    └── helpers/           (Optional Python scripts)      │  │
+│  │                                                           │  │
+│  │  priority-assistant/      (Calculate task priorities)    │  │
+│  │    ├── SKILL.md                                          │  │
+│  │    └── score.py           (Priority scoring script)      │  │
+│  │                                                           │  │
+│  │  deadline-guardian/       (Detect at-risk deadlines)     │  │
+│  │    ├── SKILL.md                                          │  │
+│  │    └── risk_calc.py                                      │  │
+│  │                                                           │  │
+│  │  project-planner/         (Break down projects)          │  │
+│  │    ├── SKILL.md                                          │  │
+│  │    └── templates/         (Project templates)            │  │
+│  │                                                           │  │
+│  │  productivity-analyzer/   (Learn usage patterns)         │  │
+│  │    ├── SKILL.md                                          │  │
+│  │    └── analyze.py                                        │  │
+│  │                                                           │  │
+│  │  meeting-optimizer/       (Find optimal meeting times)   │  │
+│  │    └── SKILL.md                                          │  │
+│  │                                                           │  │
+│  │  context-assistant/       (Filter tasks by context)      │  │
+│  │    └── SKILL.md                                          │  │
 │  └──────────────────────────────────────────────────────────┘  │
 └───────────────────────────┬────────────────────────────────────┘
                             │
 ┌───────────────────────────┴────────────────────────────────────┐
-│                   AI & INTELLIGENCE LAYER                       │
-│  ┌────────────────────┐  ┌──────────────────────────────────┐ │
-│  │   LLM Services     │  │   Intelligence Services          │ │
-│  │                    │  │                                  │ │
-│  │  - Claude API      │  │  - Scheduling Engine             │ │
-│  │  - Local Ollama    │  │  - Priority Scoring              │ │
-│  │  - OpenRouter      │  │  - Pattern Recognition           │ │
-│  │                    │  │  - Learning/Personalization      │ │
-│  └────────────────────┘  │  - Risk Detection                │ │
-│                          │  - Capacity Planning             │ │
-│                          └──────────────────────────────────┘ │
-└───────────────────────────┬────────────────────────────────────┘
-                            │
-┌───────────────────────────┴────────────────────────────────────┐
 │                   MCP INTEGRATION LAYER                         │
+│              Extend Claude's tools with new capabilities        │
+│                                                                 │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐        │
 │  │  Calendar    │  │    Tasks     │  │   Projects   │        │
 │  │ MCP Server   │  │ MCP Server   │  │ MCP Server   │        │
 │  │              │  │              │  │              │        │
 │  │ - CalDAV     │  │ - Vikunja    │  │ - Plane      │        │
-│  │ - Events     │  │ - TaskWarrior│  │ - OpenProject│        │
-│  │ - Scheduling │  │ - Todoist    │  │ - Taiga      │        │
+│  │ - Events     │  │ - Taskwarrior│  │ - OpenProject│        │
+│  │ - Free/busy  │  │ - Todoist    │  │ - Taiga      │        │
 │  └──────────────┘  └──────────────┘  └──────────────┘        │
 │                                                                 │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐        │
 │  │   Notes      │  │   Search     │  │  Analytics   │        │
 │  │ MCP Server   │  │ MCP Server   │  │ MCP Server   │        │
 │  │              │  │              │  │              │        │
-│  │ - Nextcloud  │  │ - Meilisearch│  │ - Time Track │        │
-│  │ - Outline    │  │ - Vector DB  │  │ - Metrics    │        │
-│  │ - Obsidian   │  │ - Semantic   │  │ - Reporting  │        │
+│  │ - Nextcloud  │  │ - Meilisearch│  │ - Metrics DB │        │
+│  │ - Outline    │  │ - Vector DB  │  │ - Patterns   │        │
+│  │ - Obsidian   │  │ - Semantic   │  │ - Reports    │        │
 │  └──────────────┘  └──────────────┘  └──────────────┘        │
 └───────────────────────────┬────────────────────────────────────┘
                             │
 ┌───────────────────────────┴────────────────────────────────────┐
+│                  HELPER SERVICES (Optional)                     │
+│         Used by Skills when complex computation needed          │
+│                                                                 │
+│  ┌────────────────────┐  ┌──────────────────────────────────┐ │
+│  │ Scheduling Engine  │  │   Pattern Recognition            │ │
+│  │ (OR-Tools/Python)  │  │   (ML/Statistics)                │ │
+│  │                    │  │                                  │ │
+│  │ - Constraint solve │  │  - Duration learning             │ │
+│  │ - Optimal placement│  │  - Productivity patterns         │ │
+│  │ - Re-optimization  │  │  - User preferences              │ │
+│  └────────────────────┘  └──────────────────────────────────┘ │
+└───────────────────────────┬────────────────────────────────────┘
+                            │
+┌───────────────────────────┴────────────────────────────────────┐
 │                     DATA STORAGE LAYER                          │
-│  ┌──────────────────────────────────────────────────────────┐  │
-│  │                    Persistence                            │  │
-│  │                                                           │  │
-│  │  ┌────────────┐  ┌────────────┐  ┌────────────┐         │  │
-│  │  │ PostgreSQL │  │   Redis    │  │  TimeSeries│         │  │
-│  │  │            │  │            │  │            │         │  │
-│  │  │ - Users    │  │ - Cache    │  │ - Metrics  │         │  │
-│  │  │ - Prefs    │  │ - Sessions │  │ - Analytics│         │  │
-│  │  │ - Learning │  │ - Queue    │  │ - Logs     │         │  │
-│  │  └────────────┘  └────────────┘  └────────────┘         │  │
-│  │                                                           │  │
-│  │  ┌────────────┐  ┌────────────┐                          │  │
-│  │  │ Vector DB  │  │   Files    │                          │  │
-│  │  │ (Qdrant)   │  │ (Local FS) │                          │  │
-│  │  │            │  │            │                          │  │
-│  │  │ - Embeddings│  │ - Backups │                          │  │
-│  │  │ - Semantic │  │ - Exports  │                          │  │
-│  │  └────────────┘  └────────────┘                          │  │
-│  └──────────────────────────────────────────────────────────┘  │
+│                                                                 │
+│  ┌────────────┐  ┌────────────┐  ┌────────────┐              │
+│  │ PostgreSQL │  │   Redis    │  │ TimeSeries │              │
+│  │            │  │            │  │   (SQLite) │              │
+│  │ - Prefs    │  │ - Cache    │  │            │              │
+│  │ - Learning │  │ - Sessions │  │ - Metrics  │              │
+│  │ - History  │  │ - Queue    │  │ - Analytics│              │
+│  └────────────┘  └────────────┘  └────────────┘              │
 └───────────────────────────┬────────────────────────────────────┘
                             │
 ┌───────────────────────────┴────────────────────────────────────┐
 │                  FOSS BACKEND SERVICES                          │
-│  ┌──────────────────────────────────────────────────────────┐  │
-│  │                  Self-Hosted Tools                        │  │
-│  │                                                           │  │
-│  │  - Radicale (CalDAV Server)                              │  │
-│  │  - Vikunja (Task Management)                             │  │
-│  │  - Plane (Project Management)                            │  │
-│  │  - Nextcloud (Files, Notes, Calendar UI)                 │  │
-│  │  - n8n (Workflow Automation)                             │  │
-│  │  - Meilisearch (Search Engine)                           │  │
-│  └──────────────────────────────────────────────────────────┘  │
+│                                                                 │
+│  - Radicale (CalDAV Server)                                    │
+│  - Vikunja (Task Management)                                   │
+│  - Plane (Project Management)                                  │
+│  - Nextcloud (Files, Notes, Calendar UI)                       │
+│  - Meilisearch (Search Engine)                                 │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
+## KEY ARCHITECTURAL PRINCIPLES
+
+### 1. **Skills Are Markdown Instructions, Not Code**
+
+**Per Anthropic's design philosophy:**
+- Skills are markdown files (SKILL.md) that teach Claude how to use tools
+- Claude sees only name/description initially (~20-30 tokens per Skill)
+- Full content loaded only when Claude decides the Skill is relevant
+- Helper scripts can be executed WITHOUT loading into context window
+
+**"The context window is a public good"** - Skills must be extremely concise.
+
+---
+
+### 2. **Progressive Disclosure**
+
+```
+User Request
+    ↓
+Claude sees all Skill names/descriptions (minimal tokens)
+    ↓
+Claude decides which Skill(s) are relevant
+    ↓
+Claude loads only the SKILL.md files needed
+    ↓
+Claude follows instructions, using MCP tools + Bash/Read/Write
+    ↓
+(Optional) Claude executes helper scripts if needed
+    ↓
+Result returned to user
+```
+
+**Key Point:** Scripts execute without being read into context - this is how Skills scale!
+
+---
+
+### 3. **Skills vs MCP Servers**
+
+| Component | Purpose | Format | Examples |
+|-----------|---------|--------|----------|
+| **MCP Server** | Extends Claude's **tools** | TypeScript/Python service | Calendar operations, Database queries |
+| **Skill** | Extends Claude's **knowledge** | Markdown instructions | How to schedule tasks, How to prioritize |
+
+**Together:**
+- MCP Server gives Claude `calendar_create_event` tool
+- Skill teaches Claude WHEN and HOW to use it intelligently
+- Result: Claude can schedule tasks like Motion does
+
+---
+
 ## LAYER DETAILS
 
-### 1. USER INTERFACE LAYER
+### 1. SKILLS LAYER (This Repository)
 
-**Supported Interfaces:**
+**Directory Structure:**
+```
+.claude/skills/
+├── task-scheduler/
+│   ├── SKILL.md              # Main instructions (mandatory)
+│   ├── find_slots.py         # Helper script (optional)
+│   └── config/
+│       └── defaults.yaml     # Default settings
+│
+├── priority-assistant/
+│   ├── SKILL.md
+│   └── calculate_score.py
+│
+├── deadline-guardian/
+│   ├── SKILL.md
+│   └── risk_calculator.py
+│
+├── project-planner/
+│   ├── SKILL.md
+│   └── templates/
+│       ├── web-project.yaml
+│       └── content-project.yaml
+│
+├── productivity-analyzer/
+│   ├── SKILL.md
+│   ├── analyze_patterns.py
+│   └── data/
+│       └── schema.sql
+│
+├── meeting-optimizer/
+│   └── SKILL.md
+│
+└── context-assistant/
+    └── SKILL.md
+```
 
-**CLI (Primary - Phase 1)**
+---
+
+### SKILL ANATOMY
+
+Every Skill has the same structure:
+
+**File: `.claude/skills/{skill-name}/SKILL.md`**
+
+```yaml
+---
+name: skill-name
+description: What this Skill does and when Claude should use it (max 1024 chars)
+---
+
+# Skill Name
+
+## Purpose
+Brief explanation of the Skill's value
+
+## Prerequisites
+- MCP servers needed (if any)
+- Required environment setup
+- Dependencies
+
+## When to Use
+Clear triggers for when Claude should invoke this Skill
+
+## Instructions
+Step-by-step guidance for Claude (be concise!)
+
+## Helper Scripts
+How to use optional scripts (if any)
+
+## Examples
+Concrete usage examples
+
+## Error Handling
+How to handle common issues
+```
+
+---
+
+### EXAMPLE SKILL: task-scheduler
+
+**File: `.claude/skills/task-scheduler/SKILL.md`**
+
+```markdown
+---
+name: task-scheduler
+description: Automatically schedule tasks into CalDAV calendar by finding optimal time slots based on priority, deadline, and availability. Use when user wants to add tasks to calendar or optimize their schedule.
+---
+
+# Task Scheduler
+
+## Purpose
+Help users automatically schedule tasks into their calendar using AI to find optimal time slots.
+
+## Prerequisites
+- Calendar MCP server configured (CalDAV access)
+- (Optional) Tasks MCP server for richer task metadata
+
+## When to Use
+- User says "schedule task X"
+- User asks "when should I work on Y?"
+- User wants "to add Z to calendar"
+- User requests schedule optimization
+
+## Instructions
+
+### Step 1: Gather Requirements
+Ask user for missing information:
+- Task title (required)
+- Estimated duration in hours (required)
+- Deadline (optional but recommended)
+- Priority: 1-4, where 1=highest (default: 3)
+- Constraints (e.g., "must be morning", "only Fridays")
+
+### Step 2: Fetch Calendar Data
+Use Calendar MCP to get existing events:
+- Time range: today → deadline (or +7 days if no deadline)
+- Include all calendars user wants checked
+
+### Step 3: Find Candidate Slots
+Look for free time blocks that:
+- Match task duration (continuous block)
+- Fall within work hours (default: Mon-Fri 9am-5pm)
+- Don't conflict with existing events
+- Have 30min buffer before/after (for >2hr tasks)
+
+### Step 4: Score Each Slot
+Use this formula (higher = better):
+
+```
+Base score: 100
+
+Time of day bonus:
+  Morning (9am-12pm):  +20  (best for focus)
+  Afternoon (1pm-4pm): +10
+  Late day (4pm-5pm):  +5
+
+Deadline urgency:
+  Days until deadline: -(days * 2)
+  (closer deadline = higher urgency)
+
+Priority bonus:
+  P1: +30
+  P2: +15
+  P3: +5
+  P4: +0
+
+Buffer bonus:
+  Has 30min before & after: +10
+```
+
+Can use helper script for complex scoring:
 ```bash
-# Example usage
-motion schedule "Write quarterly report" --deadline "2025-01-15" --duration 4h
-motion next  # Show what to work on now
-motion status  # Show today's schedule
-motion risks  # Show at-risk deadlines
+python .claude/skills/task-scheduler/score_slot.py \
+  --slot "2025-01-15T09:00:00" \
+  --duration 3 \
+  --deadline "2025-01-20" \
+  --priority 2
 ```
 
-**TUI (Terminal UI - Phase 2)**
-- Rich terminal interface using `textual` or `rich`
-- Dashboard view with schedule, tasks, priorities
-- Keyboard-driven navigation
-- Real-time updates
+### Step 5: Create Calendar Event
+Use Calendar MCP `calendar_create_event`:
+- Title: `[Task] {task_title}`
+- Start/End: Best scored slot
+- Description: Include priority and deadline
+- Reminder: 30min before (if >2hr duration)
 
-**Web App (Phase 3)**
-- Self-hosted web interface
-- Calendar view, task list, project boards
-- Responsive design for mobile browsers
+### Step 6: Explain Decision
+Always tell user WHY you chose that slot:
 
-**Mobile App (Phase 4 - Optional)**
-- React Native or Flutter
-- Quick capture, notifications, schedule view
-- Syncs with self-hosted backend
+Example:
+> "I scheduled 'Write report' for Tuesday 9am-12pm because:
+> - Morning is your most productive time for deep work (+20)
+> - It's 3 days before your Friday deadline
+> - You have no meetings nearby (clear focus time)
+> - Priority 2 task gets premium time slot"
 
----
+## Helper Scripts
 
-### 2. SKILLS ORCHESTRATION LAYER
+### score_slot.py
+Calculates priority score for a time slot.
 
-**Skills Architecture:**
-
-Each skill is a self-contained module that:
-- Exposes specific capabilities (via MCP protocol or direct API)
-- Can be invoked by Claude Code or other automation
-- Interacts with MCP servers for data access
-- Contains its own logic and decision-making
-- Can invoke AI services when needed
-
-**Core Skills:**
-
-#### A. `task-scheduler-skill`
-**Purpose:** Automatic task scheduling into calendar
-
-**Capabilities:**
-- Schedule single task into optimal calendar slot
-- Batch schedule multiple tasks
-- Re-schedule on conflicts or changes
-- Respect constraints (work hours, focus time)
-
-**Inputs:**
-- Task (title, deadline, duration, priority, dependencies)
-- Current calendar state
-- User preferences (work hours, focus patterns)
-
-**Outputs:**
-- Scheduled calendar event (CalDAV)
-- Explanation of scheduling decision
-- Alternative slot suggestions
-
-**Dependencies:**
-- Calendar MCP Server (read/write)
-- Tasks MCP Server (read)
-- Scheduling Engine (constraint solver)
-
----
-
-#### B. `priority-assistant-skill`
-**Purpose:** Intelligent task prioritization
-
-**Capabilities:**
-- Calculate priority scores for all tasks
-- Rank tasks by computed priority
-- Answer "what should I work on next?"
-- Explain priority decisions
-- Re-prioritize on context changes
-
-**Inputs:**
-- All active tasks
-- Current time and context
-- User preferences
-
-**Outputs:**
-- Sorted task list by priority
-- Top priority recommendation
-- Priority explanations
-
-**Dependencies:**
-- Tasks MCP Server
-- Priority Scoring Service
-- Context detection
-
----
-
-#### C. `deadline-guardian-skill`
-**Purpose:** Proactive deadline risk management
-
-**Capabilities:**
-- Detect at-risk deadlines
-- Calculate risk scores (probability of missing deadline)
-- Send early warnings (days/weeks in advance)
-- Suggest remediation actions
-
-**Inputs:**
-- All tasks/projects with deadlines
-- Calendar availability
-- Historical velocity data
-
-**Outputs:**
-- Risk reports (per project/deadline)
-- Warning notifications
-- Remediation suggestions (extend, cut scope, add resources)
-
-**Dependencies:**
-- Tasks MCP Server
-- Projects MCP Server
-- Calendar MCP Server
-- Risk Detection Service
-
----
-
-#### D. `project-planner-skill`
-**Purpose:** AI-assisted project planning
-
-**Capabilities:**
-- Decompose project into tasks
-- Estimate durations based on historical data
-- Identify dependencies
-- Predict completion timeline
-- Generate project templates
-
-**Inputs:**
-- Project description
-- Similar historical projects
-- Team composition (if multi-user)
-
-**Outputs:**
-- Task breakdown (created in project management tool)
-- Timeline estimate
-- Resource allocation suggestions
-- Project template (if pattern detected)
-
-**Dependencies:**
-- Projects MCP Server
-- Tasks MCP Server
-- LLM Service (Claude API or Ollama)
-- Historical data analytics
-
----
-
-#### E. `productivity-analyzer-skill`
-**Purpose:** Learn user patterns and optimize scheduling
-
-**Capabilities:**
-- Track task completion patterns
-- Identify peak productivity hours
-- Learn task duration estimates
-- Detect context preferences
-- Personalize scheduling decisions
-
-**Inputs:**
-- Historical task completion data
-- Time-of-day metrics
-- Task types and durations
-- User overrides/corrections
-
-**Outputs:**
-- Productivity heat map
-- Learned preferences (task duration, best times)
-- Personalization updates for other skills
-- Weekly productivity reports
-
-**Dependencies:**
-- Analytics MCP Server
-- Time tracking data
-- Pattern Recognition Service
-- Learning/Personalization Service
-
----
-
-#### F. `meeting-optimizer-skill`
-**Purpose:** Intelligent meeting management
-
-**Capabilities:**
-- Find optimal meeting times across attendees
-- Create automatic meeting prep tasks
-- Suggest meeting durations
-- Optimize attendee lists
-- Detect unnecessary meetings
-
-**Inputs:**
-- Meeting request (attendees, purpose, duration)
-- All attendees' calendars
-- Historical meeting patterns
-
-**Outputs:**
-- Ranked meeting time options
-- Meeting prep tasks (scheduled)
-- Attendee optimization suggestions
-- Meeting efficiency score
-
-**Dependencies:**
-- Calendar MCP Server (multi-user)
-- Tasks MCP Server
-- Meeting Optimization Service
-
----
-
-#### G. `workflow-automation-skill`
-**Purpose:** Event-driven automation and integrations
-
-**Capabilities:**
-- Trigger actions on calendar/task events
-- Connect skills together (workflows)
-- Handle interruption recovery
-- Execute scheduled automations
-- Manage notifications
-
-**Inputs:**
-- Event streams (calendar changes, task updates)
-- Automation rules/workflows
-- User preferences
-
-**Outputs:**
-- Automated actions executed
-- Workflow state updates
-- Notifications sent
-
-**Dependencies:**
-- All MCP Servers (as event sources)
-- n8n (workflow engine) or custom
-- Notification service
-
----
-
-### 3. AI & INTELLIGENCE LAYER
-
-**LLM Services:**
-
-**Claude API (Primary for complex reasoning)**
-- Project decomposition
-- Natural language understanding
-- Complex decision explanations
-- Template generation
-
-**Local Ollama (For privacy-sensitive or high-volume tasks)**
-- Task categorization
-- Priority explanations
-- Pattern recognition
-- Quick classifications
-
-**Usage Strategy:**
-- Use Claude API for "Phase 1" complex reasoning (project planning)
-- Use Local Ollama for "Phase 2" high-frequency tasks (priority scoring explanations)
-- Cache LLM responses aggressively
-- Minimize API calls through smart prompting
-
----
-
-**Intelligence Services:**
-
-These are deterministic or ML-based services (not LLM):
-
-#### Scheduling Engine
-**Technology:** Constraint satisfaction solver
-- **Option 1:** Google OR-Tools (Python/C++)
-- **Option 2:** OptaPlanner (Java)
-- **Option 3:** Custom genetic algorithm
-
-**Purpose:**
-- Find optimal task placements in calendar
-- Respect hard constraints (no conflicts)
-- Optimize soft constraints (preferences)
-- Handle re-scheduling efficiently
-
-**API:**
-```python
-schedule_task(
-    task: Task,
-    calendar: Calendar,
-    constraints: Constraints,
-    preferences: Preferences
-) -> ScheduledSlot
+**Usage:**
+```bash
+python .claude/skills/task-scheduler/score_slot.py \
+  --slot "YYYY-MM-DDTHH:MM:SS" \
+  --duration HOURS \
+  --deadline "YYYY-MM-DD" \
+  --priority 1-4
 ```
 
----
-
-#### Priority Scoring Service
-**Technology:** Weighted scoring algorithm (no ML initially)
-
-**Factors:**
-- Deadline proximity: `score = 1 / days_until_deadline`
-- User priority: `1-4 (P1=4, P2=3, P3=2, P4=1)`
-- Dependencies: `+1 if blocking other tasks`
-- Duration: `+0.5 if <30min (quick win)`
-- Age in backlog: `+0.1 per week`
-
-**Formula:**
-```
-priority_score = (
-    w1 * deadline_score +
-    w2 * user_priority +
-    w3 * dependency_score +
-    w4 * duration_score +
-    w5 * age_score
-)
-```
-
-**Weights:** Configurable per user, learned over time
-
----
-
-#### Pattern Recognition Service
-**Technology:** Time-series analysis + ML
-
-**Patterns to detect:**
-- Peak productivity hours (statistical analysis)
-- Task duration patterns (regression)
-- Context preferences (clustering)
-- Interruption patterns (anomaly detection)
-
-**Models:**
-- Task duration: Linear regression per task type
-- Productivity: Moving averages + outlier detection
-- Personalization: Incremental learning (online ML)
-
----
-
-#### Risk Detection Service
-**Technology:** Statistical modeling
-
-**Risk Calculation:**
-```python
-available_time = sum(calendar_free_blocks(now, deadline))
-required_time = sum(incomplete_task_durations)
-buffer_time = required_time * 0.2  # 20% buffer
-
-risk_score = required_time / (available_time - buffer_time)
-
-# risk_score > 1.0 = impossible
-# risk_score > 0.9 = critical
-# risk_score > 0.7 = at-risk
-# risk_score <= 0.7 = on-track
-```
-
-**Enhancements:**
-- Monte Carlo simulation for confidence intervals
-- Velocity-based adjustments (if team consistently slower/faster)
-- Historical risk modeling (learn from past projects)
-
----
-
-#### Learning & Personalization Service
-**Technology:** User preference model + incremental learning
-
-**What to learn:**
-- Task duration corrections (user always takes 2x estimate)
-- Scheduling preferences (user moves deep work to morning)
-- Context patterns (user does admin on Fridays)
-- Override patterns (user consistently overrides AI decision X)
-
-**Storage:**
+**Returns:** JSON with score and reasoning
 ```json
 {
-  "user_id": "user123",
-  "preferences": {
-    "task_duration_multipliers": {
-      "code_review": 1.5,
-      "meetings": 1.0,
-      "writing": 1.2
-    },
-    "scheduling_preferences": {
-      "deep_work_hours": ["09:00-12:00"],
-      "admin_hours": ["14:00-16:00"],
-      "no_meetings": ["Friday"]
-    },
-    "learned_patterns": [
-      {
-        "pattern": "task_type=code_review AND time=morning",
-        "action": "prefer_schedule",
-        "confidence": 0.85,
-        "sample_size": 23
-      }
-    ]
+  "score": 145,
+  "factors": {
+    "base": 100,
+    "time_of_day": 20,
+    "urgency": 15,
+    "priority": 10
   }
 }
 ```
 
+## Examples
+
+### Example 1: Simple Task
+```
+User: "Schedule 'Write blog post' for 3 hours, due Friday"
+
+Claude:
+1. Checks calendar Mon-Fri
+2. Finds Tuesday 9am-12pm free
+3. Scores: 140 points (morning + 3 days buffer)
+4. Creates event
+5. Explains: "Tuesday morning is your best time for writing"
+```
+
+### Example 2: Urgent High-Priority
+```
+User: "P1: Fix production bug, 2 hours, ASAP"
+
+Claude:
+1. Looks for next available 2hr block
+2. Finds today 2pm-4pm (score: 135)
+3. Creates event immediately
+4. Explains: "Scheduling today due to P1 priority and urgency"
+```
+
+### Example 3: Constrained Scheduling
+```
+User: "Schedule 'Team presentation prep', 4 hours, must be Thursday afternoon, due Friday"
+
+Claude:
+1. Filters to Thursday 1pm-5pm only
+2. Finds Thursday 1pm-5pm (score: 110)
+3. Creates event
+4. Explains: "Only Thursday afternoon slot available per your constraint"
+```
+
+## Error Handling
+
+**No available slots:**
+- Suggest extending work hours OR
+- Suggest moving lower-priority tasks OR
+- Suggest extending deadline
+
+**Deadline already passed:**
+- Alert user clearly
+- Ask for new deadline
+
+**Conflicting events:**
+- Never double-book
+- Find next best available slot
+- Ask user if they want to reschedule existing event
+
+## Notes
+- Always respect existing calendar commitments
+- Default work hours: Mon-Fri 9am-5pm (ask user if different)
+- For recurring tasks, ask if user wants series or single instance
+- Consider user's timezone (from calendar settings)
+```
+
 ---
 
-### 4. MCP INTEGRATION LAYER
+### EXAMPLE SKILL: priority-assistant
 
-**MCP (Model Context Protocol) Servers:**
+**File: `.claude/skills/priority-assistant/SKILL.md`**
 
-MCP servers provide standardized access to external tools/data sources. Each skill interacts with data through MCP servers rather than direct API calls.
-
-**Benefits:**
-- Standardized interface across different backends
-- Easy to swap implementations (e.g., Vikunja → Todoist)
-- Built-in authentication and rate limiting
-- Can be used by Claude Code directly
-
+```markdown
+---
+name: priority-assistant
+description: Calculate intelligent priority scores for tasks using multiple factors (deadline, importance, effort, dependencies). Use when user asks "what should I work on?" or "prioritize my tasks".
 ---
 
-#### Calendar MCP Server
-**Backends Supported:**
-- Radicale (CalDAV)
-- Nextcloud Calendar
-- Google Calendar (via CalDAV)
-- Apple Calendar (via CalDAV)
+# Priority Assistant
 
-**Capabilities:**
+## Purpose
+Help users understand which tasks deserve their attention right now using multi-factor scoring.
+
+## Prerequisites
+- Tasks MCP server (to fetch task list)
+- (Optional) Calendar MCP (to check available time)
+
+## When to Use
+- User asks "what should I work on?"
+- User asks "prioritize my tasks"
+- User wants to know "what's most important?"
+- User requests task ranking
+
+## Instructions
+
+### Step 1: Fetch All Active Tasks
+Use Tasks MCP to get incomplete tasks:
+```
+Filter: status = "incomplete"
+Include: title, deadline, priority, estimated_duration, dependencies, tags
+```
+
+### Step 2: Calculate Priority Score for Each
+
+**Scoring Algorithm:**
+
+```
+Base score: 100
+
+Factor 1: Deadline Proximity (0-40 points)
+  If no deadline: 0
+  If deadline:
+    days_until = deadline - today
+    score = 40 / (days_until + 1)
+    (closer deadline = higher score)
+
+Factor 2: User-Assigned Priority (0-30 points)
+  P1 (highest): 30
+  P2: 20
+  P3: 10
+  P4: 5
+  None: 0
+
+Factor 3: Dependencies (0-20 points)
+  If task blocks others: 20
+  If task has no dependencies: 0
+  (blocking tasks = higher priority)
+
+Factor 4: Quick Win Bonus (0-15 points)
+  If duration < 30min: 15
+  If duration < 1hr: 10
+  If duration < 2hr: 5
+  Else: 0
+
+Factor 5: Age in Backlog (0-10 points)
+  weeks_old = (today - created_date) / 7
+  score = min(weeks_old * 2, 10)
+  (older tasks get attention)
+
+Total Score = sum of all factors
+```
+
+Use helper script for calculation:
+```bash
+python .claude/skills/priority-assistant/calculate_score.py \
+  --deadline "2025-01-20" \
+  --priority 2 \
+  --duration 3 \
+  --blocks 2 \
+  --created "2025-01-01"
+```
+
+### Step 3: Rank Tasks
+Sort tasks by computed score (highest first).
+
+### Step 4: Present Top 3-5 Tasks
+Show user the top priority tasks with:
+- Task title
+- Computed score
+- WHY it's high priority (breakdown of factors)
+
+Example output:
+```
+Your top priorities right now:
+
+1. [Score: 165] Fix production bug
+   Why: P1 priority (30), deadline tomorrow (38), blocks 2 tasks (20)
+
+2. [Score: 142] Complete Q4 report
+   Why: Deadline in 2 days (26), P2 priority (20), in backlog 3 weeks (6)
+
+3. [Score: 135] Review PR #234
+   Why: Quick win <30min (15), P1 priority (30), blocks deployment (20)
+```
+
+### Step 5: Recommend Next Action
+Tell user: "I recommend starting with '{top_task}' because {reasoning}"
+
+## Helper Scripts
+
+### calculate_score.py
+Calculates priority score for a task.
+
+**Usage:**
+```bash
+python .claude/skills/priority-assistant/calculate_score.py \
+  --deadline "YYYY-MM-DD" \
+  --priority 1-4 \
+  --duration HOURS \
+  --blocks NUM_TASKS \
+  --created "YYYY-MM-DD"
+```
+
+**Returns:**
 ```json
 {
-  "tools": [
-    "calendar.list_events",
-    "calendar.get_event",
-    "calendar.create_event",
-    "calendar.update_event",
-    "calendar.delete_event",
-    "calendar.find_free_slots",
-    "calendar.subscribe_changes"
-  ],
-  "resources": [
-    "calendar://{calendar_id}/events/{event_id}"
+  "total_score": 165,
+  "factors": {
+    "deadline": 38,
+    "priority": 30,
+    "dependencies": 20,
+    "quick_win": 15,
+    "age": 6
+  }
+}
+```
+
+## Examples
+
+### Example 1: Daily Planning
+```
+User: "What should I work on today?"
+
+Claude:
+1. Fetches 23 incomplete tasks
+2. Calculates scores for all
+3. Ranks by score
+4. Shows top 5
+5. Recommends: "Start with 'Fix login bug' (score 178) - P1, deadline today, blocks 3 tasks"
+```
+
+### Example 2: Context-Aware Priority
+```
+User: "I have 30 minutes before my meeting, what should I tackle?"
+
+Claude:
+1. Fetches tasks
+2. Filters to tasks <30min duration
+3. Calculates scores
+4. Recommends highest-score quick win
+5. "Review PR #156 (15min estimate, score 145)"
+```
+
+## Error Handling
+- If no tasks: "You have no incomplete tasks!"
+- If all tasks have same score: Use age as tiebreaker
+- If task missing data: Use defaults (priority=3, no deadline, etc.)
+
+## Notes
+- Score algorithm is configurable in calculate_score.py
+- Users can adjust weights if they prefer different factors
+- Re-run daily as deadlines approach (scores change daily)
+```
+
+---
+
+### EXAMPLE SKILL: deadline-guardian
+
+**File: `.claude/skills/deadline-guardian/SKILL.md`**
+
+```markdown
+---
+name: deadline-guardian
+description: Proactively detect at-risk project deadlines by comparing required work vs available time. Warns users days/weeks in advance. Use for daily checks or when user asks about project status.
+---
+
+# Deadline Guardian
+
+## Purpose
+Detect projects at risk of missing deadlines and warn users with enough time to take action.
+
+## Prerequisites
+- Tasks MCP server (to get project tasks)
+- Calendar MCP server (to calculate available time)
+- (Optional) Projects MCP server (for richer project data)
+
+## When to Use
+- Daily automated check (morning)
+- User asks "will I meet my deadline?"
+- User requests project status
+- User asks "what's at risk?"
+
+## Instructions
+
+### Step 1: Identify Projects with Deadlines
+Fetch all active projects that have:
+- Deadline date set
+- Incomplete tasks
+
+### Step 2: For Each Project, Calculate Risk
+
+**Required Time:**
+```
+required_hours = sum(incomplete_task_durations)
+```
+
+**Available Time:**
+```
+days_until_deadline = deadline - today
+work_days = count_weekdays(today, deadline)  # exclude weekends
+hours_per_day = 8  # configurable
+
+Use Calendar MCP to get existing meetings between now and deadline
+meeting_hours = sum(meeting_durations)
+
+available_hours = (work_days * hours_per_day) - meeting_hours
+```
+
+**Risk Score:**
+```
+buffer_needed = required_hours * 0.20  # 20% buffer
+risk_score = (required_hours + buffer_needed) / available_hours
+
+Risk levels:
+  risk_score <= 0.7:  ✅ On track
+  risk_score <= 0.9:  ⚠️  At risk
+  risk_score <= 1.2:  🔴 Critical
+  risk_score > 1.2:   ❌ Impossible
+```
+
+Use helper script:
+```bash
+python .claude/skills/deadline-guardian/calculate_risk.py \
+  --project-id "proj-123" \
+  --deadline "2025-02-01" \
+  --required-hours 80 \
+  --calendar-range "2025-01-15:2025-02-01"
+```
+
+### Step 3: Generate Warnings
+For projects that are At Risk or worse:
+
+**Warning Format:**
+```
+⚠️ DEADLINE RISK: {Project Name}
+Status: {At Risk / Critical / Impossible}
+Deadline: {date} ({days} days away)
+
+Analysis:
+- Required work: {hours}h remaining
+- Available time: {hours}h (after meetings)
+- Risk score: {score} ({percentage}% over capacity)
+
+Recommendations:
+1. {action 1}
+2. {action 2}
+3. {action 3}
+```
+
+**Recommendation Logic:**
+- If risk_score > 1.0: Suggest extending deadline OR cutting scope
+- If risk_score > 0.9: Suggest reprioritizing other work
+- If critical tasks: Suggest getting help / delegating
+
+### Step 4: Notify User
+- Critical/Impossible: Notify immediately
+- At Risk: Include in daily morning briefing
+- On Track: Only show if user specifically asks
+
+## Helper Scripts
+
+### calculate_risk.py
+Computes risk score for a project deadline.
+
+**Usage:**
+```bash
+python .claude/skills/deadline-guardian/calculate_risk.py \
+  --project-id PROJECT_ID \
+  --deadline YYYY-MM-DD \
+  --required-hours NUM \
+  --calendar-range START:END
+```
+
+**Returns:**
+```json
+{
+  "risk_score": 1.15,
+  "risk_level": "critical",
+  "details": {
+    "required_hours": 60,
+    "available_hours": 52,
+    "work_days": 10,
+    "meeting_hours": 18,
+    "buffer_needed": 12
+  },
+  "recommendations": [
+    "Extend deadline by 5 work days",
+    "Cut optional features (12h reduction needed)",
+    "Delegate 2 tasks to team members"
   ]
 }
 ```
 
-**Example Usage:**
-```python
-# Via MCP
-events = mcp.call("calendar.list_events", {
-    "start": "2025-01-10T00:00:00Z",
-    "end": "2025-01-17T00:00:00Z",
-    "calendar": "work"
-})
+## Examples
 
-free_slots = mcp.call("calendar.find_free_slots", {
-    "duration_minutes": 120,
-    "start": "2025-01-10T09:00:00Z",
-    "end": "2025-01-10T17:00:00Z"
-})
+### Example 1: Early Warning (2 weeks out)
+```
+User: "Check my deadlines"
+
+Claude runs deadline-guardian:
+- Website Redesign: Feb 15 deadline
+- Required: 60h, Available: 52h
+- Risk: Critical (115%)
+
+Output:
+🔴 CRITICAL: Website Redesign
+Your project is at risk! Need 60h but only have 52h available before Feb 15.
+
+Suggestions:
+1. Extend deadline to Feb 22 (+5 work days)
+2. Cut "testimonials section" feature (-8h)
+3. Get help from Sarah on 2 backend tasks (-12h)
+```
+
+### Example 2: Daily Morning Check
+```
+Automated morning run:
+
+Claude checks all projects:
+- Q1 Planning: ✅ On track (67% capacity)
+- Blog Series: ⚠️ At risk (88% capacity)
+- Client Project: ✅ On track (45% capacity)
+
+Daily briefing includes:
+"⚠️ Your Blog Series is getting tight - using 88% of available time before Jan 25. Consider bumping 2 low-priority tasks to next week."
+```
+
+## Error Handling
+- No calendar access: Use work_days * 8 as available hours estimate
+- Missing task durations: Warn user to add estimates
+- Past deadlines: Alert immediately, ask for new deadline
+
+## Notes
+- Run daily at 8am for proactive warnings
+- Risk buffer (20%) accounts for unexpected delays
+- Consider user's historical velocity for better estimates
 ```
 
 ---
 
-#### Tasks MCP Server
-**Backends Supported:**
-- Vikunja
-- Taskwarrior
-- Todoist
-- Nextcloud Tasks
+## HELPER SERVICES (Optional)
 
-**Capabilities:**
-```json
-{
-  "tools": [
-    "tasks.list",
-    "tasks.get",
-    "tasks.create",
-    "tasks.update",
-    "tasks.delete",
-    "tasks.complete",
-    "tasks.search",
-    "tasks.get_dependencies"
-  ],
-  "resources": [
-    "task://{task_id}"
-  ]
-}
-```
+While Skills are markdown instructions, some complex computations benefit from helper scripts or services.
 
-**Example Usage:**
-```python
-# Via MCP
-tasks = mcp.call("tasks.list", {
-    "filter": {
-        "status": "incomplete",
-        "deadline_before": "2025-01-20"
-    },
-    "sort": "deadline"
-})
+### When to Use Helper Scripts vs Pure Instructions
 
-mcp.call("tasks.complete", {"task_id": "task-123"})
-```
+**Use Helper Scripts When:**
+- Complex mathematical calculations (constraint solving, optimization)
+- Performance-critical operations (analyzing thousands of data points)
+- External API calls with complex auth
+- Statistical analysis or ML inference
+
+**Use Pure Instructions When:**
+- Simple logic (if/then decisions)
+- Basic data transformation
+- Calling MCP tools in sequence
+- Formatting output
 
 ---
 
-#### Projects MCP Server
-**Backends Supported:**
-- Plane
-- OpenProject
-- Taiga
-- Linear
+### Example Helper Service: Scheduling Engine
 
-**Capabilities:**
-```json
-{
-  "tools": [
-    "projects.list",
-    "projects.get",
-    "projects.create",
-    "projects.update",
-    "projects.create_task",
-    "projects.get_timeline",
-    "projects.get_capacity"
-  ],
-  "resources": [
-    "project://{project_id}",
-    "project://{project_id}/tasks"
-  ]
-}
+**Purpose:** Solve constraint satisfaction problem for optimal task placement
+
+**Technology:** Google OR-Tools (Python)
+
+**Location:** `.claude/skills/task-scheduler/helpers/schedule_engine.py`
+
+**Usage from Skill:**
+```markdown
+## Step 4: Find Optimal Slot (Complex Cases)
+
+For schedules with 10+ tasks or complex constraints, use scheduling engine:
+
+```bash
+python .claude/skills/task-scheduler/helpers/schedule_engine.py \
+  --tasks tasks.json \
+  --calendar events.json \
+  --output schedule.json
 ```
+
+Engine will:
+1. Load tasks and calendar constraints
+2. Use OR-Tools CP-SAT solver
+3. Optimize for: earliest completion, minimal fragmentation
+4. Output optimized schedule
+```
+
+**Implementation:** (Separate from SKILL.md, only loaded when executed)
 
 ---
 
-#### Notes MCP Server
-**Backends Supported:**
-- Nextcloud Notes
-- Outline
-- Obsidian (via filesystem)
-- Standard Notes
+## MCP INTEGRATION LAYER
 
-**Capabilities:**
-```json
-{
-  "tools": [
-    "notes.list",
-    "notes.get",
-    "notes.create",
-    "notes.update",
-    "notes.search",
-    "notes.link_to_task"
-  ]
-}
-```
+MCP servers provide the "tools" that Skills teach Claude to use.
 
----
+### Required MCP Servers
 
-#### Search MCP Server
-**Backends Supported:**
-- Meilisearch
-- Qdrant (vector search)
-- PostgreSQL full-text search
+1. **Calendar MCP** - CalDAV operations
+   - Existing: `caldav-mcp` ✅
+   - Tools: list_events, create_event, update_event, delete_event
+   - Need to add: `find_free_slots` tool
 
-**Capabilities:**
-```json
-{
-  "tools": [
-    "search.query",
-    "search.semantic_search",
-    "search.index_content",
-    "search.suggest_related"
-  ]
-}
-```
+2. **Tasks MCP** - Task management
+   - Status: Need to build 🔨
+   - Backend: Vikunja (REST API)
+   - Tools: list, get, create, update, complete, get_dependencies
 
----
+3. **Projects MCP** - Project management
+   - Status: Need to build 🔨
+   - Backend: Plane (REST API)
+   - Tools: list, get, create, get_timeline, get_capacity
 
-#### Analytics MCP Server
-**Purpose:** Track and analyze user activity
+4. **Analytics MCP** - Metrics tracking
+   - Status: Need to build 🔨
+   - Storage: SQLite + TimeSeries tables
+   - Tools: track_event, get_metrics, get_productivity_report
 
-**Capabilities:**
-```json
-{
-  "tools": [
-    "analytics.track_event",
-    "analytics.get_metrics",
-    "analytics.get_productivity_report",
-    "analytics.get_time_tracking"
-  ]
-}
-```
+5. **Search MCP** - Full-text and semantic search
+   - Status: Need to build 🔨
+   - Backend: Meilisearch + Qdrant
+   - Tools: query, semantic_search, suggest_related
 
-**Events tracked:**
-- Task created/completed
-- Schedule changes
-- User overrides
-- Interruptions
-- Focus time blocks
+6. **Notes MCP** - Note and document access
+   - Status: Partial (use filesystem MCP) ⚠️
+   - Backend: Nextcloud Notes or Obsidian
+   - Tools: list, get, create, link_to_task
 
----
-
-### 5. DATA STORAGE LAYER
-
-**PostgreSQL (Primary Database)**
-- User accounts and preferences
-- Learned preferences (personalization)
-- Workflow definitions
-- Audit logs
-
-**Redis (Cache & Queue)**
-- Calendar event cache
-- Task list cache
-- Job queue for background processing
-- Session storage
-
-**TimeSeries DB (Metrics)**
-- Productivity metrics over time
-- Task completion velocity
-- Schedule adherence
-- System performance
-
-**Vector DB (Semantic Search)**
-- Task/note/project embeddings
-- Semantic search
-- Related content suggestions
-
-**File Storage**
-- Exports and backups
-- Generated reports
-- User-uploaded files
-
----
-
-### 6. FOSS BACKEND SERVICES
-
-**Core Stack:**
-
-```yaml
-# docker-compose.yml example
-services:
-  # Calendar
-  radicale:
-    image: tomsquest/docker-radicale
-    volumes:
-      - ./data/calendar:/data
-
-  # Tasks
-  vikunja:
-    image: vikunja/vikunja
-    environment:
-      VIKUNJA_DATABASE_TYPE: postgres
-
-  # Projects
-  plane:
-    image: makeplane/plane-frontend
-    depends_on:
-      - plane-api
-
-  # Notes & Files
-  nextcloud:
-    image: nextcloud:apache
-    volumes:
-      - ./data/nextcloud:/var/www/html
-
-  # Workflow Automation
-  n8n:
-    image: n8nio/n8n
-    environment:
-      N8N_BASIC_AUTH_ACTIVE: "true"
-
-  # Search
-  meilisearch:
-    image: getmeili/meilisearch
-    environment:
-      MEILI_MASTER_KEY: ${MEILI_KEY}
-
-  # Vector Search
-  qdrant:
-    image: qdrant/qdrant
-
-  # Database
-  postgres:
-    image: postgres:15
-    volumes:
-      - ./data/postgres:/var/lib/postgresql/data
-
-  # Cache
-  redis:
-    image: redis:7-alpine
-```
+**See [mcp-integration-guide.md](./mcp-integration-guide.md) for detailed specs.**
 
 ---
 
 ## DATA FLOW EXAMPLES
 
-### Example 1: Scheduling a Task
+### Example 1: User Schedules a Task
 
 ```
-1. User Input (CLI):
-   $ motion schedule "Write blog post" --deadline "2025-01-20" --duration 3h
+1. User: "Schedule 'Write blog post' for 3 hours, due Friday"
 
-2. Skills Layer:
-   task-scheduler-skill receives command
-   ↓
-   Calls Tasks MCP Server to create task
-   ↓
-   Calls Calendar MCP Server to get current events
-   ↓
-   Calls Scheduling Engine with:
-     - Task requirements (3h, deadline 2025-01-20)
-     - Calendar state (existing meetings)
-     - User preferences (work hours, focus patterns from DB)
-   ↓
-   Scheduling Engine returns: 2025-01-15 09:00-12:00 (best slot)
-   ↓
-   Calls Calendar MCP Server to create event
-   ↓
-   Generates explanation: "Scheduled here because: morning focus time,
-                           3-day buffer before deadline, no conflicts"
+2. Claude Code:
+   - Sees user request
+   - Scans available Skills (sees task-scheduler description)
+   - Decides task-scheduler is relevant
+   - Loads .claude/skills/task-scheduler/SKILL.md
 
-3. Output to User:
-   ✓ Task scheduled: Wed Jan 15, 9:00am-12:00pm
-   Reason: Morning is your most productive time for deep work
-   Buffer: 5 days before deadline (low risk)
+3. Claude follows SKILL.md instructions:
+   a) Gathers requirements (already provided by user)
+   b) Calls Calendar MCP: calendar_list_events(start=today, end=friday)
+   c) Analyzes free slots
+   d) Optionally runs: python score_slot.py for each slot
+   e) Picks best slot: Tuesday 9am-12pm (score: 145)
+   f) Calls Calendar MCP: calendar_create_event(...)
+   g) Explains to user why Tuesday 9am was chosen
+
+4. User sees:
+   "✅ Scheduled 'Write blog post' for Tuesday 9am-12pm.
+
+   I chose this time because:
+   - Morning is your most productive time for writing (+20)
+   - It's 3 days before your Friday deadline (good buffer)
+   - You have no meetings nearby (uninterrupted focus)
+   - Priority 3 task fits well in this premium slot"
 ```
+
+**Tokens Used:**
+- Skill description in initial scan: ~25 tokens
+- SKILL.md loaded when needed: ~800 tokens
+- Helper script: 0 tokens (executed, not loaded)
+- Total: ~825 tokens (vs thousands if code was loaded)
 
 ---
 
-### Example 2: Real-Time Rescheduling
+### Example 2: Daily Deadline Check
 
 ```
-1. Event Detection:
-   Meeting runs 30 minutes late (detected by Calendar MCP webhook)
+1. Automated trigger (8am daily):
+   "Check for at-risk deadlines"
 
-2. Workflow Automation Skill:
-   Receives calendar.event_extended event
-   ↓
-   Triggers task-scheduler-skill.reschedule()
+2. Claude Code:
+   - Loads deadline-guardian Skill
+   - Follows SKILL.md instructions
 
-3. Task Scheduler Skill:
-   Fetches affected tasks (scheduled after the meeting)
-   ↓
-   Calls Scheduling Engine to re-optimize remaining day
-   ↓
-   Options:
-     A. Shift all tasks 30 min later (may run past end-of-day)
-     B. Compress tasks (shorter durations if feasible)
-     C. Move some tasks to next day
-   ↓
-   Checks user's learned preference: "usually extends workday"
-   ↓
-   Applies option A + notifies user
+3. Claude executes:
+   a) Calls Tasks MCP: tasks_list(filter=has_deadline)
+   b) For each project with deadline:
+      - Calls Calendar MCP: calendar_list_events(today → deadline)
+      - Runs: python calculate_risk.py --project-id X --deadline Y
+      - Gets risk score
+   c) Identifies: "Website Redesign" = Critical (risk: 1.15)
+   d) Generates warning with recommendations
+   e) Sends notification to user
 
-4. Output:
-   🔔 Schedule updated: Meeting ran late
-   - "Review PRs" moved from 2:30pm → 3:00pm
-   - "Update docs" moved from 4:00pm → 4:30pm
-   (workday extended by 30 minutes to 6:00pm)
-```
+4. User receives (via notification or morning briefing):
+   "🔴 CRITICAL: Website Redesign deadline at risk!
 
----
+   You need 60 hours of work but only have 52 hours available before Feb 15.
 
-### Example 3: Deadline Risk Warning
-
-```
-1. Scheduled Check (Daily):
-   deadline-guardian-skill runs at 8am daily
-
-2. Skill Execution:
-   Fetches all projects/tasks with deadlines
-   ↓
-   For each deadline:
-     Calculate available_time (calendar free blocks)
-     Calculate required_time (sum of incomplete task durations)
-     risk_score = required_time / available_time
-   ↓
-   Finds: Project "Website Redesign" risk_score = 1.2 (120%)
-
-3. Risk Analysis:
-   Deadline: Jan 25 (15 days away)
-   Required: 60 hours of work remaining
-   Available: 50 hours (after meetings/commitments)
-   Risk: IMPOSSIBLE (need 20% more time)
-
-4. Remediation Suggestions:
-   LLM Service generates options:
-     A. Extend deadline to Feb 1 (+7 days)
-     B. Cut optional features (reduce scope 20%)
-     C. Add team member (split work with Sarah)
-
-5. Output:
-   ⚠️  RISK ALERT: Website Redesign
-   Status: Deadline at risk (impossible to meet)
-   Details: Need 60h, only 50h available before Jan 25
-
-   Suggestions:
-   1. Extend deadline to Feb 1
+   Recommendations:
+   1. Extend deadline to Feb 22 (+5 work days)
    2. Cut scope: Remove testimonials section (-8h)
-   3. Get help: Assign 2 tasks to Sarah
-```
-
----
-
-## SKILL DEVELOPMENT GUIDELINES
-
-### Creating a New Skill
-
-**1. Skill Structure:**
-```
-skills/
-  my-skill/
-    skill.yaml           # Skill metadata
-    main.py             # Entry point
-    requirements.txt    # Python dependencies
-    README.md           # Documentation
-    tests/              # Unit tests
-```
-
-**2. skill.yaml Format:**
-```yaml
-name: my-skill
-version: 1.0.0
-description: Brief description of skill capabilities
-author: Your Name
-keywords: [productivity, automation]
-
-interface:
-  type: cli  # cli, mcp, api
-  entry: python main.py
-
-capabilities:
-  - action: my_action
-    description: What this action does
-    inputs:
-      - name: input1
-        type: string
-        required: true
-    outputs:
-      - name: result
-        type: object
-
-dependencies:
-  mcp_servers:
-    - calendar
-    - tasks
-  services:
-    - scheduling_engine
-  python_packages:
-    - requests
-    - click
-```
-
-**3. main.py Template:**
-```python
-#!/usr/bin/env python3
-"""
-My Skill - Brief description
-"""
-
-import click
-from mcp_client import MCPClient
-
-class MySkill:
-    def __init__(self):
-        self.mcp = MCPClient()
-
-    def perform_action(self, input1: str) -> dict:
-        """
-        Main skill logic here
-        """
-        # Access data via MCP
-        data = self.mcp.call("tasks.list", {})
-
-        # Perform processing
-        result = self.process(data)
-
-        return result
-
-@click.group()
-def cli():
-    """My Skill CLI"""
-    pass
-
-@cli.command()
-@click.argument('input1')
-def action(input1):
-    """Perform the main action"""
-    skill = MySkill()
-    result = skill.perform_action(input1)
-    click.echo(result)
-
-if __name__ == '__main__':
-    cli()
-```
-
----
-
-### Skill Communication Patterns
-
-**Pattern 1: Direct Invocation (CLI)**
-```bash
-# User directly calls skill
-$ motion task-scheduler schedule "Task name" --deadline 2025-01-20
-```
-
-**Pattern 2: Inter-Skill Invocation**
-```python
-# One skill calls another skill
-from skills import get_skill
-
-scheduler = get_skill('task-scheduler')
-result = scheduler.schedule_task(task_data)
-```
-
-**Pattern 3: Event-Driven (via Workflow Automation)**
-```python
-# Skill registers for events
-workflow.on_event('calendar.event_extended',
-                   task_scheduler.reschedule_affected_tasks)
-```
-
-**Pattern 4: MCP Server (Claude Code integration)**
-```json
-// Skill exposes MCP server
-// Claude Code can call it directly
-{
-  "name": "task-scheduler",
-  "tools": [{
-    "name": "schedule_task",
-    "description": "Schedule a task into calendar",
-    "inputSchema": {
-      "type": "object",
-      "properties": {
-        "task_title": {"type": "string"},
-        "duration_hours": {"type": "number"},
-        "deadline": {"type": "string"}
-      }
-    }
-  }]
-}
+   3. Delegate: Assign 2 backend tasks to Sarah (-12h)"
 ```
 
 ---
 
 ## DEPLOYMENT ARCHITECTURE
 
-### Single-User Deployment (Phase 1)
+### Single-User Setup (Phase 1)
 
 ```
-┌─────────────────────────────────────┐
-│     Single Machine (Linux/Mac)      │
-│                                     │
-│  ┌───────────────────────────────┐  │
-│  │  Docker Compose Stack         │  │
-│  │  - Radicale                   │  │
-│  │  - Vikunja                    │  │
-│  │  - PostgreSQL                 │  │
-│  │  - Redis                      │  │
-│  │  - Meilisearch                │  │
-│  └───────────────────────────────┘  │
-│                                     │
-│  ┌───────────────────────────────┐  │
-│  │  Skills Runtime               │  │
-│  │  - Python venv                │  │
-│  │  - Claude Code integration    │  │
-│  └───────────────────────────────┘  │
-│                                     │
-│  User accesses via:                 │
-│  - Terminal (CLI/TUI)               │
-│  - localhost:3000 (web UI)          │
-└─────────────────────────────────────┘
+Developer's Machine (Linux/Mac)
+├── Claude Code CLI
+├── .claude/
+│   ├── skills/          ← This repo cloned here
+│   │   ├── task-scheduler/
+│   │   ├── priority-assistant/
+│   │   └── ...
+│   └── config.json      ← MCP servers configured
+│
+├── Docker Compose Stack
+│   ├── radicale         (CalDAV server)
+│   ├── vikunja          (Tasks)
+│   ├── postgresql       (Data storage)
+│   └── redis            (Cache)
+│
+└── Helper Services (optional)
+    └── venv/
+        └── schedule_engine.py
 ```
 
 **Setup:**
 ```bash
-# Clone repo
-git clone https://github.com/you/motion-foss-skills
-cd motion-foss-skills
+# 1. Clone this repo into .claude/skills
+cd ~/.claude
+git clone https://github.com/you/motion-foss-skills skills/
 
-# Start services
+# 2. Start FOSS backend services
+cd ~/productivity-stack
 docker-compose up -d
 
-# Install skills
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-python setup.py install
+# 3. Configure MCP servers in Claude Code
+cat ~/.claude/config.json
+{
+  "mcpServers": {
+    "calendar": {
+      "command": "npx",
+      "args": ["-y", "@dominik1001/caldav-mcp"],
+      "env": {
+        "CALDAV_BASE_URL": "http://localhost:5232",
+        "CALDAV_USERNAME": "user",
+        "CALDAV_PASSWORD": "pass"
+      }
+    },
+    "tasks": {
+      "command": "node",
+      "args": ["~/mcp-servers/vikunja-tasks/dist/index.js"],
+      "env": {
+        "VIKUNJA_URL": "http://localhost:3456",
+        "VIKUNJA_TOKEN": "your-token"
+      }
+    }
+  }
+}
 
-# Initialize
-motion init
-motion config set calendar.url "http://localhost:5232"
-motion config set tasks.type "vikunja"
-```
-
----
-
-### Multi-User Deployment (Phase 3+)
-
-```
-┌─────────────────────────────────────────────────────────┐
-│                    Cloud/VPS Server                      │
-│                                                          │
-│  ┌────────────────────────────────────────────────────┐ │
-│  │  Reverse Proxy (Caddy/Nginx)                       │ │
-│  │  - HTTPS/TLS termination                           │ │
-│  │  - Authentication (OAuth2)                         │ │
-│  └────────────────────────────────────────────────────┘ │
-│                         │                                │
-│  ┌────────────────────────────────────────────────────┐ │
-│  │  Skills API Service (per-user isolation)          │ │
-│  └────────────────────────────────────────────────────┘ │
-│                         │                                │
-│  ┌────────────────────────────────────────────────────┐ │
-│  │  Backend Services (multi-tenant)                   │ │
-│  │  - Radicale (per-user CalDAV)                      │ │
-│  │  - Vikunja (multi-user mode)                       │ │
-│  │  - PostgreSQL (shared, isolated by user_id)        │ │
-│  └────────────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────┘
-                         │
-                         │ (Users connect via)
-                         │
-        ┌────────────────┼────────────────┐
-        │                │                │
-   ┌────▼────┐      ┌────▼────┐     ┌────▼────┐
-   │ Web App │      │ Mobile  │     │   CLI   │
-   │ (React) │      │  App    │     │(Claude  │
-   │         │      │         │     │ Code)   │
-   └─────────┘      └─────────┘     └─────────┘
+# 4. Test
+claude "schedule 'test task' for 1 hour"
 ```
 
 ---
 
 ## TECHNOLOGY CHOICES
 
-### Languages & Frameworks
+### Skills Layer
+- **Language:** Markdown (SKILL.md files)
+- **Helper Scripts:** Python 3.11+ (for OR-Tools, ML, statistics)
+- **Alternative Scripts:** Bash, Node.js (whatever's executable)
 
-**Python (Primary)**
-- Skills implementation
-- MCP server implementations
-- CLI tools
-- Reasoning: Best ecosystem for AI/ML, scheduling algorithms
+### MCP Servers
+- **Primary:** TypeScript/Node.js (best MCP SDK support)
+- **Alternative:** Python (also has official MCP SDK)
 
-**TypeScript/Node.js (Secondary)**
-- Web frontend (React/Next.js)
-- Some MCP servers (if better libraries available)
+### Helper Services
+- **Scheduling Engine:** Google OR-Tools (Python)
+- **Pattern Recognition:** scikit-learn, pandas (Python)
+- **Data Analysis:** SQLite, PostgreSQL
 
-**Rust (Optional for performance-critical)**
-- Scheduling engine (if Python too slow)
-- Real-time event processing
-
----
-
-### Key Libraries
-
-**Scheduling & Optimization:**
-- Google OR-Tools: Constraint programming
-- PuLP: Linear programming (simpler alternative)
-- Schedule: Simple Python job scheduling
-
-**AI/ML:**
-- LangChain: LLM orchestration
-- scikit-learn: Pattern recognition, ML models
-- pandas: Data analysis
-- numpy: Numerical computing
-
-**Calendar/Tasks:**
-- caldav: CalDAV protocol (Python)
-- ics: iCalendar format parsing
-- python-dateutil: Date/time manipulation
-
-**Web & API:**
-- FastAPI: API server (if exposing HTTP API)
-- Click: CLI framework
-- Rich/Textual: Terminal UI
-
-**Data & Storage:**
-- SQLAlchemy: Database ORM
-- Redis-py: Redis client
-- Qdrant-client: Vector search
+### FOSS Backend
+- **Calendar:** Radicale (CalDAV)
+- **Tasks:** Vikunja (Go, REST API)
+- **Projects:** Plane (TypeScript/Python)
+- **Search:** Meilisearch (Rust)
+- **Database:** PostgreSQL 15+
+- **Cache:** Redis 7+
 
 ---
 
-## TESTING STRATEGY
+## DEVELOPMENT WORKFLOW
 
-### Unit Tests
-- Each skill has comprehensive unit tests
-- Mock MCP servers for isolation
-- Test all decision algorithms
+### Creating a New Skill
 
-### Integration Tests
-- Test skill → MCP server → backend flow
-- Test inter-skill communication
-- Test event-driven workflows
+1. **Create directory:**
+   ```bash
+   mkdir -p .claude/skills/my-new-skill
+   cd .claude/skills/my-new-skill
+   ```
 
-### System Tests
-- Full stack tests (docker-compose environment)
-- Real user scenarios
-- Performance benchmarks
+2. **Write SKILL.md:**
+   ```markdown
+   ---
+   name: my-new-skill
+   description: What it does and when to use it (concise!)
+   ---
 
-### A/B Testing
-- Compare AI scheduling vs manual
-- Measure time savings
-- Validate learned preferences
+   # My New Skill
+
+   ## Purpose
+   One sentence.
+
+   ## When to Use
+   - Trigger 1
+   - Trigger 2
+
+   ## Instructions
+   Step-by-step for Claude...
+   ```
+
+3. **(Optional) Add helper scripts:**
+   ```bash
+   touch helper.py
+   chmod +x helper.py
+   ```
+
+4. **Test with Claude Code:**
+   ```bash
+   claude "trigger phrase that should invoke my skill"
+   ```
+
+5. **Iterate:**
+   - Check Claude actually loads the Skill (use `/debug` if available)
+   - Refine description if Claude doesn't auto-select it
+   - Simplify SKILL.md if it's too verbose
+   - Move complex logic to helper scripts
+
+### Best Practices (From Anthropic)
+
+1. **"Claude is already very smart"** - Don't explain things Claude already knows
+2. **Context window is a public good** - Be extremely concise
+3. **Progressive disclosure** - Put rarely-used details in separate files
+4. **Test with target models** - Sonnet 4.5, Haiku, etc. behave differently
+5. **Clear descriptions** - Skill description determines when Claude uses it
+6. **Examples matter** - Concrete examples help Claude understand
+7. **Error handling** - Tell Claude what to do when things fail
 
 ---
 
 ## PERFORMANCE TARGETS
 
-| Operation | Target | Measurement |
-|-----------|--------|-------------|
-| Schedule single task | <500ms | Time from request to calendar update |
-| Re-optimize schedule (50 tasks) | <2s | Real-time re-scheduling latency |
-| Priority calculation (100 tasks) | <100ms | Scoring all tasks |
-| Calendar sync | <1s | Fetch latest events via CalDAV |
-| LLM call (project decomposition) | <10s | Claude API response time |
-| Search query | <200ms | Meilisearch full-text search |
-| Page load (web UI) | <1s | Initial render time |
+| Operation | Target | How Achieved |
+|-----------|--------|--------------|
+| Skill discovery | <10ms | Only YAML frontmatter scanned |
+| Skill loading | <50ms | Markdown file read on-demand |
+| Priority calculation | <100ms | Python script, 100 tasks |
+| Schedule optimization | <2s | OR-Tools constraint solver, 50 tasks |
+| Calendar sync | <1s | CalDAV MCP, cached |
+| Risk detection | <500ms | Simple math, parallel project checks |
 
 ---
 
-## SECURITY & PRIVACY
+## TESTING STRATEGY
 
-### Data Protection
-- All data stored locally (self-hosted)
-- Optional encryption at rest (PostgreSQL)
-- Encrypted API calls (HTTPS/TLS)
-- No data sent to third parties (except opt-in LLM APIs)
+### 1. Skill Instruction Testing
+- Read SKILL.md as a human - is it clear?
+- Ask colleague to follow instructions - do they work?
+- Test with Claude - does it understand?
 
-### Authentication
-- Single-user: Local authentication
-- Multi-user: OAuth2 or LDAP
-- API keys for programmatic access
+### 2. Helper Script Testing
+- Unit tests for all Python scripts
+- Test edge cases (no deadline, empty calendar, etc.)
+- Performance benchmarks
 
-### Privacy
-- LLM calls can use local Ollama (no external API)
-- Analytics data stays local
-- Opt-in telemetry only
+### 3. Integration Testing
+- Full flow: user request → skill → MCP → backend → response
+- Test with real data (actual calendar, tasks)
+- Measure time savings vs manual workflow
+
+### 4. A/B Testing
+- Compare AI scheduling vs user's manual schedule
+- Measure: time saved, schedule adherence, user satisfaction
 
 ---
 
 ## ROADMAP ALIGNMENT
 
-### Phase 1: MVP (Months 1-3)
-- CLI interface
-- Core skills: scheduler, priority, deadline guardian
-- Single-user deployment
-- CalDAV + Vikunja integration
+### Phase 1: Foundation (Weeks 1-8)
+**Focus:** Core Skills as markdown files
 
-### Phase 2: Intelligence (Months 4-6)
-- Learning & personalization
-- Real-time re-optimization
-- Productivity analyzer skill
-- Local LLM integration
+- ✅ Write task-scheduler SKILL.md
+- ✅ Write priority-assistant SKILL.md
+- ✅ Write deadline-guardian SKILL.md
+- ✅ Build Tasks MCP server (Vikunja)
+- ✅ Build Analytics MCP server (minimal)
+- ✅ Test with Claude Code CLI
 
-### Phase 3: Polish (Months 7-9)
-- Web UI
-- Project planner skill
-- Advanced integrations (Plane, Nextcloud)
-- Performance optimization
+**Deliverable:** Working Skills that automate basic scheduling
 
-### Phase 4: Scale (Months 10-12)
-- Multi-user support
-- Team collaboration features
-- Mobile app (optional)
-- Marketplace/plugin system
+---
+
+### Phase 2: Intelligence (Weeks 9-14)
+**Focus:** Add helper services for complex logic
+
+- ✅ Build scheduling engine (OR-Tools)
+- ✅ Add real-time re-optimization
+- ✅ Build pattern recognition service
+- ✅ Update Skills to use helper services
+
+**Deliverable:** Adaptive scheduling that learns
+
+---
+
+### Phase 3: Enhancement (Weeks 15-20)
+**Focus:** More Skills, better integration
+
+- ✅ Write productivity-analyzer SKILL.md
+- ✅ Write meeting-optimizer SKILL.md
+- ✅ Write context-assistant SKILL.md
+- ✅ Build Projects MCP server (Plane)
+- ✅ Build Search MCP server (Meilisearch)
+
+**Deliverable:** Complete productivity suite
 
 ---
 
 ## SUCCESS METRICS
 
-### User Metrics
-- Time saved per week (target: 2+ hours)
-- Schedule adherence (target: +15%)
-- Deadline success rate (target: +20%)
-- User satisfaction (SUS score target: 70+)
+### User Impact
+- **Time Saved:** 2+ hours/week on task management
+- **Schedule Adherence:** +15% tasks completed on time
+- **Deadline Success:** +20% projects on schedule
+- **Cognitive Load:** "What should I work on?" answered instantly
 
-### Technical Metrics
-- System uptime (target: 99.5%)
-- Response times (all under targets above)
-- Error rate (target: <1%)
-- Test coverage (target: >80%)
+### Technical Performance
+- **Skill Loading:** <50ms per skill
+- **Context Usage:** <1000 tokens per skill invocation
+- **Helper Script Execution:** <2s for complex operations
+- **System Reliability:** 99.5% uptime
 
-### Adoption Metrics
-- Active users
-- Skills invocation frequency
-- Feature usage (which skills used most)
-- Retention (continued use after 30 days)
+### Adoption
+- **Daily Active Usage:** Skills invoked 5+ times/day
+- **User Satisfaction:** SUS score >70
+- **Retention:** 80%+ still using after 30 days
+
+---
+
+## RESOURCES
+
+**Official Anthropic Documentation:**
+- Skills Overview: https://docs.claude.com/en/docs/claude-code/skills
+- Best Practices: https://docs.claude.com/en/docs/agents-and-tools/agent-skills/best-practices
+- MCP Protocol: https://modelcontextprotocol.io
+
+**This Project:**
+- Feature Spec: [motion-ai-feature-spec.md](./motion-ai-feature-spec.md)
+- MCP Integration: [mcp-integration-guide.md](./mcp-integration-guide.md)
+- Parity Checklist: [parity-checklist.md](./parity-checklist.md)
+
+**FOSS Tools:**
+- Radicale: https://radicale.org
+- Vikunja: https://vikunja.io
+- Plane: https://plane.so
+- OR-Tools: https://developers.google.com/optimization
+
+---
+
+## APPENDIX: Skills vs Services Comparison
+
+### ❌ WRONG: Skills as Python Services (My Original Approach)
+
+```python
+# This is NOT how Skills work!
+class TaskSchedulerSkill:
+    def __init__(self):
+        self.mcp = MCPClient()
+
+    def schedule_task(self, task: Task) -> ScheduledSlot:
+        events = self.mcp.call("calendar_list_events", {...})
+        slot = self.optimize(task, events)
+        return slot
+```
+
+**Problems:**
+- Requires Claude to understand Python code
+- Loads entire codebase into context
+- Not how Anthropic designed Skills
+- Defeats purpose of progressive disclosure
+
+---
+
+### ✅ CORRECT: Skills as Markdown Instructions
+
+```markdown
+---
+name: task-scheduler
+description: Schedule tasks into calendar optimally
+---
+
+# Task Scheduler
+
+## Instructions
+
+1. Get task details from user
+2. Call calendar MCP: list_events
+3. Find free slots
+4. Score each slot using these factors: [...]
+5. Create event with calendar MCP
+6. Explain choice to user
+```
+
+**Benefits:**
+- Clear, human-readable instructions
+- Minimal context usage (~800 tokens)
+- Claude already knows how to call MCP tools
+- Easy to update and maintain
+- Scales to unlimited Skills
+
+---
+
+**The key insight:** Skills teach Claude how to use tools, they don't replace Claude's intelligence with custom code.
