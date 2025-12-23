@@ -61,6 +61,7 @@ my-skill/
 - [Agent Skills Spec](./agent_skills_spec.md) - Complete specification for skill structure
 - [Anthropic Skills Examples](https://github.com/anthropics/skills) - Official example skills
 - [Claude Code Plugins Documentation](https://code.claude.com/docs/en/plugins)
+- [Plugin Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces.md) - Marketplace setup guide
 
 ## License
 
