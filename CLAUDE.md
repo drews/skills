@@ -16,3 +16,16 @@ Use `@/openspec/AGENTS.md` to learn:
 Keep this managed block so 'openspec update' can refresh the instructions.
 
 <!-- OPENSPEC:END -->
+
+## Platform Awareness
+
+This project is developed across Windows, macOS, and Linux. **Always check the platform indicator** in your session environment before making assumptions.
+
+**Platform-specific considerations:**
+- **Commands**: Use Git Bash syntax on Windows (`ls`, `cat`, `test`), avoid CMD/PowerShell syntax
+- **Paths**: Prefer forward slashes (works everywhere), quote paths with spaces
+- **Shell**: Git Bash on Windows, Bash/Zsh on Unix-like systems
+
+**When encountering platform-related issues**, use the `operating-systems` skill for detailed cross-platform guidance and command equivalents.
+
+See `operating-systems/SKILL.md` for comprehensive platform-aware development patterns.
