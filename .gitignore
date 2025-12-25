@@ -1,3 +1,12 @@
+# Claude Code local configuration
+.claude/settings.local.json
+.claude/*.local.json
+**/*.local.md
+.claude/sessions/
+.claude/cache/
+.claude/transcript*
+.claude/*.session
+
 # OS files
 .DS_Store
 Thumbs.db
@@ -21,6 +30,13 @@ env/
 # Node
 node_modules/
 npm-debug.log*
+
+# Environment and secrets
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
 
 # Temporary files
 *.tmp
