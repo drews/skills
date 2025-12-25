@@ -27,9 +27,21 @@ Alternatively, browse and install via the plugin menu:
 4. Select the skill plugin you want
 5. Select `Install now`
 
+## For Developers
+
+If you're contributing to this repository or developing your own marketplace, see the comprehensive development guide:
+
+**[CONTRIBUTING.md](./CONTRIBUTING.md)** - Covers:
+- Local development workflow with `--plugin-dir`
+- Plugin caching and loading behavior
+- Testing before distribution
+- Version management and semantic versioning
+- Marketplace updates and deployment
+- Installation scopes and precedence
+
 ## Creating a New Skill
 
-To create a new skill in this repository:
+Quick start (see [CONTRIBUTING.md](./CONTRIBUTING.md) for full details):
 
 1. Create a new directory with your skill name (lowercase, hyphen-separated)
 2. Add a `SKILL.md` file with YAML frontmatter:
@@ -37,11 +49,13 @@ To create a new skill in this repository:
    ---
    name: my-skill-name
    description: Clear description of what this skill does and when to use it
+   version: 1.0.0
    ---
    ```
 3. Add your skill instructions in Markdown below the frontmatter
-4. Update `.claude-plugin/marketplace.json` to include your new skill in the `skills` array
-5. Commit and push to GitHub
+4. Update `.claude-plugin/marketplace.json` to include your new skill
+5. Test locally with `claude --plugin-dir .`
+6. Commit and push to GitHub
 
 ## Skill Structure
 
