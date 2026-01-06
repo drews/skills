@@ -28,6 +28,15 @@
         "./saving-progress",
         "./sensing-limits"
       ]
+    },
+    {
+      "name": "project-tools",
+      "description": "Project management tool skills: issue tracking with beads (bd)",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./tracking-issues"
+      ]
     }
   ]
 }
