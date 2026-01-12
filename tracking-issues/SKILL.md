@@ -51,7 +51,7 @@ bd create "Implement OAuth flow for Google provider" -p 1 --type feature
 ```
 
 **Track state transitions:**
-- `pending` → `in_progress` → `closed`
+- `open` → `in_progress` → `closed`
 
 **Always close with a reason** (future agents need this context):
 ```bash
@@ -77,10 +77,10 @@ bd dep add <child> <parent>
 bd show <id>
 ```
 
-**Hierarchical IDs for epics:**
-- `bd-a3f8` — Epic level
-- `bd-a3f8.1` — Task level
-- `bd-a3f8.1.1` — Sub-task level
+**Hierarchical IDs for epics** (prefix varies by project, e.g., `myproject-a3f8`):
+- `<prefix>-a3f8` — Epic level
+- `<prefix>-a3f8.1` — Task level
+- `<prefix>-a3f8.1.1` — Sub-task level
 
 **Types of relationships:**
 - `blocks` — Hard dependency, prevents progress
