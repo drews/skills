@@ -1,6 +1,6 @@
 ---
 name: tuning-affordances
-description: Iteratively and safely adjust personal computing affordances — dotfiles, shell, editor, keybindings, window manager, scripts, aliases, and the physical/digital workspace around them — as self-accommodations that reduce executive function load. Use when user mentions "tweak my config", "tune my setup", "adjust my dotfiles", "rebind", "shell alias", "editor config", "window manager", "make X easier to do", "my environment", "my workspace", "too many steps to do X", "this keeps getting in my way", "I forget where X is", "reduce friction", or wants to change how their computer or desk affords certain actions. Also use when iterating on previously-made changes, auditing config drift, or staging reversible experiments with personal tooling.
+description: Safely adjust personal computing affordances as self-accommodations that reduce executive function load. Use when user wants to tweak configs, rebind keys, add aliases, reduce friction in their setup, or says things like "too many steps", "I keep forgetting where X is", "make this easier to do". Also covers iterating on previous changes and physical workspace adjustments.
 ---
 
 # Tuning Affordances
@@ -9,8 +9,8 @@ Environment friction compounds executive dysfunction. Every extra step, hidden s
 
 ## When to Use This Skill
 
-Use this skill when detecting:
-- **Config edits**: "dotfiles", ".zshrc", ".config", "settings.json", editor/shell/WM config
+### Trigger Categories
+- **Config edits**: dotfiles, `.zshrc`, `.config`, `settings.json`, editor/shell/WM config
 - **Personalization intent**: "rebind", "alias for", "shortcut for", "make it easier to", "I always have to"
 - **Environment framing**: "my setup", "my workspace", "my environment", "my rig"
 - **Iteration language**: "tweak", "tune", "adjust", "refine", "try", "experiment with"
@@ -18,7 +18,12 @@ Use this skill when detecting:
 - **Accommodation needs**: "I keep forgetting where X is", "I need this to be more obvious", "reduce the friction", "make the right thing the easy thing"
 - **Physical workspace**: desk layout, peripherals, lighting, posture affordances that interact with digital ones
 
-Do **not** use this skill for: one-off bug fixes in project code, cross-machine porting infrastructure (use dotfile managers directly), or onboarding a brand-new machine from zero (that's bootstrap, not tuning).
+### Disambiguating Triggers
+Some triggers overlap with other tasks. Use this skill when the intent is *reshaping what the environment affords*, not fixing a one-time problem:
+- "My shell is slow" → if about startup time/config bloat, use this skill. If about a hung process, that's debugging.
+- "Change this keybinding" → if in the user's personal editor/WM config, use this skill. If in a project's source code, that's a code change.
+- "I need to set up X" → if adding a permanent personal affordance, use this skill. If bootstrapping a fresh machine from zero, that's provisioning.
+- "This is annoying" → if about recurring friction in the user's environment, use this skill. If about a bug in project code, that's a fix.
 
 ## Core Principles
 
@@ -81,12 +86,12 @@ For changes to login shells, display managers, or anything that runs at boot: al
 
 ## Anti-Patterns
 
-- Rewriting a whole config file when a three-line edit would do.
-- Adding layers of abstraction ("a framework for managing my dotfiles") before the underlying edits are stable.
-- Treating every friction as needing a config fix — sometimes the answer is a habit change, not a knob.
-- Committing experiments to canonical config before living with them.
-- Building cross-machine portability before knowing what the local affordance should even be.
-- Confusing "more configured" with "better tuned." Subtractive changes count.
+❌ Do NOT rewrite a whole config file when a three-line edit would do
+❌ Do NOT add layers of abstraction ("a framework for managing my dotfiles") before the underlying edits are stable
+❌ Do NOT treat every friction as needing a config fix — sometimes the answer is a habit change, not a knob
+❌ Do NOT commit experiments to canonical config before living with them
+❌ Do NOT build cross-machine portability before knowing what the local affordance should even be
+❌ Do NOT confuse "more configured" with "better tuned" — subtractive changes count
 
 ## Integration With Other Skills
 
