@@ -1,11 +1,11 @@
 ---
 name: tuning-affordances
-description: Iteratively and safely adjust personal computing affordances — dotfiles, shell, editor, keybindings, window manager, scripts, aliases, and the physical/digital workspace around them. Use when user mentions "tweak my config", "tune my setup", "adjust my dotfiles", "rebind", "shell alias", "editor config", "window manager", "make X easier to do", "my environment", "my workspace", or wants to change how their computer or desk affords certain actions. Also use when iterating on previously-made changes, auditing config drift, or staging reversible experiments with personal tooling.
+description: Iteratively and safely adjust personal computing affordances — dotfiles, shell, editor, keybindings, window manager, scripts, aliases, and the physical/digital workspace around them — as self-accommodations that reduce executive function load. Use when user mentions "tweak my config", "tune my setup", "adjust my dotfiles", "rebind", "shell alias", "editor config", "window manager", "make X easier to do", "my environment", "my workspace", "too many steps to do X", "this keeps getting in my way", "I forget where X is", "reduce friction", or wants to change how their computer or desk affords certain actions. Also use when iterating on previously-made changes, auditing config drift, or staging reversible experiments with personal tooling.
 ---
 
 # Tuning Affordances
 
-Treats the user's computing environment as a living set of affordances — the actions the system makes easy, hard, or invisible — and helps adjust them safely and iteratively. The computer is not a fixed tool but a surface that shapes, and is shaped by, the user's attention and habits.
+Environment friction compounds executive dysfunction. Every extra step, hidden shortcut, or misplaced tool is a tax on initiation, working memory, and sustained attention. This skill treats the computing environment as a living set of affordances — the actions the system makes easy, hard, or invisible — and helps adjust them safely and iteratively as self-accommodations. The computer is not a fixed tool but a surface that shapes, and is shaped by, the user's attention and habits.
 
 ## When to Use This Skill
 
@@ -14,7 +14,8 @@ Use this skill when detecting:
 - **Personalization intent**: "rebind", "alias for", "shortcut for", "make it easier to", "I always have to"
 - **Environment framing**: "my setup", "my workspace", "my environment", "my rig"
 - **Iteration language**: "tweak", "tune", "adjust", "refine", "try", "experiment with"
-- **Friction reports**: "this keeps annoying me", "I do X too often", "I wish my computer would"
+- **Friction reports**: "this keeps annoying me", "I do X too often", "I wish my computer would", "too many steps"
+- **Accommodation needs**: "I keep forgetting where X is", "I need this to be more obvious", "reduce the friction", "make the right thing the easy thing"
 - **Physical workspace**: desk layout, peripherals, lighting, posture affordances that interact with digital ones
 
 Do **not** use this skill for: one-off bug fixes in project code, cross-machine porting infrastructure (use dotfile managers directly), or onboarding a brand-new machine from zero (that's bootstrap, not tuning).
@@ -33,7 +34,10 @@ Tuning is a loop, not a project. Favor many small reversible experiments over on
 ### 4. Two-Way Loop
 The environment shapes the user and the user shapes the environment. A new keybinding changes what becomes habitual; a new habit reveals what the next keybinding should be. Treat friction reports as signal about the user's evolving workflow, not just bugs to patch.
 
-### 5. Physical and Digital are the Same Surface
+### 5. Environment as External Scaffolding
+A well-tuned environment is prosthetic executive function. Visible cues replace recall. Short paths replace initiation cost. Consistent layouts replace spatial working memory. Every affordance that removes a decision or a step is one fewer thing the executive system has to manage.
+
+### 6. Physical and Digital are the Same Surface
 A desk layout change and a window manager rebind are the same kind of move: both adjust what's in arm's reach. Don't artificially scope to just software.
 
 ## Workflow
