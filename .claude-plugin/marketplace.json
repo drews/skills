@@ -26,7 +26,8 @@
       "skills": [
         "./getting-started",
         "./saving-progress",
-        "./sensing-limits"
+        "./sensing-limits",
+        "./tuning-affordances"
       ]
     },
     {
