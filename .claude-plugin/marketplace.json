@@ -38,6 +38,15 @@
       "skills": [
         "./tracking-issues"
       ]
+    },
+    {
+      "name": "lms-tools",
+      "description": "Canvas LMS tooling: safe agent use of the canvas CLI",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./canvas-cli"
+      ]
     }
   ]
 }
