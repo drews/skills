@@ -14,21 +14,7 @@ CLI tools often have steep learning curves and context-dependent best practices.
 
 ## Implemented Tool Skills
 
-### Beads (bd) → `tracking-issues`
-
-**Tool**: [steveyegge/beads](https://github.com/steveyegge/beads)
-**Skill**: [`tracking-issues`](../tracking-issues/SKILL.md)
-
-Git-backed issue tracking designed for AI coding agents. Provides persistent, dependency-aware task management across sessions.
-
-**Key workflows covered:**
-- Ready-work discovery and claiming
-- Issue lifecycle (create → claim → close with reason)
-- Dependency graph management
-- Session completion ("landing the plane" protocol)
-- Planning and decomposition
-
-**Why it matters:** AI agents have no memory between sessions. Beads provides the persistent task graph that lets work continue across session boundaries.
+None yet. `tracking-issues` (beads) was removed on 2026-10-31; see git history if a git-backed issue tracker is wanted again.
 
 ---
 

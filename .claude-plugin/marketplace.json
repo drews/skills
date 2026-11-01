@@ -31,15 +31,6 @@
       ]
     },
     {
-      "name": "project-tools",
-      "description": "Project management tool skills: issue tracking with beads (bd)",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./tracking-issues"
-      ]
-    },
-    {
       "name": "lms-tools",
       "description": "Canvas LMS tooling: safe agent use of the canvas CLI",
       "source": "./",
